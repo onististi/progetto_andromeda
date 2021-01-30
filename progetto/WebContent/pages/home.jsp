@@ -11,6 +11,21 @@
 </head>
 
 <body>
+
+<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
+<%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
+
+
+<sql:setDataSource var = "snapshot" driver = "com.mysql.jdbc.Driver"
+         url = "jdbc:mysql://localhost/androme"
+         user = "aro"  password = "cavolo22"/>
+
+ <sql:query dataSource = "${snapshot}" var = "result">
+            SELECT DISTINCT comune FROM fermata ORDER BY comune ;
+</sql:query>
+
 	<header id="navbar_header">
 	</header>
 
@@ -19,22 +34,18 @@
 	</script>
 
 	<div class="background">
-		<form>
+		<form action="ticket.jsp">
 			<div class="form-box">
-				<select class="search-field text-box" name="cars">
-					<option value="" disabled selected>Partenza</option>
-				</select>
-				<select class="search-field text-box" name="cars">
-					<option value="" disabled selected>Arrivo</option>
-				</select>
-				<input type="date" class="search-field date-time-box">
-				<input type="time" class="search-field hour-time-box">
-
-				<button class="search-field search-btn" type="button" onclick="window.location.href='ticket.html'"><img src="../assets/img/search.png" alt="Search" width="30px"></button>
+				
+				<input class="search-field text-box" placeholder="Partenza" type="text" list="comuni" name="partenza" ></input>
+				<input class="search-field text-box" placeholder="Arrivo" type="text" list="comuni" name="arrivo"></input>
+				<input type="date" class="search-field date-time-box"></input>
+				<input type="time" class="search-field hour-time-box"></input>
+				
+				<button class="search-field search-btn" type="submit"><img src="../assets/img/search.png" alt="Search" width="30px"></button>
 			</div>
 		</form>
 	</div>
-
 	<center>
 		<div>
 			<h2 class="title">Compagnie supportate</h2>
@@ -56,6 +67,10 @@
 	</script>
 </body>
 
+<datalist id="comuni">
+	<c:forEach var = "row" items = "${result.rows}">
+	 	<option><c:out value = "${row.comune}"/></option>
+    </c:forEach>
+</datalist>
+
 </html>
-<!-- <input type="text" class="search-field text-box" placeholder="Partenza">
-<input type="text" class="search-field text-box" placeholder="Arrivo"> -->

@@ -46,7 +46,8 @@ body {
 }
 
 .brand{
-	height: 5.5vw;
+	height: 1vw;
+	width: 3vw
 	margin-left: 5px;
 	margin-right: 5px;
 }
