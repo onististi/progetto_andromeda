@@ -1,18 +1,3 @@
-<?php
-//connection
-$config = parse_ini_file("../config/key.ini");
-$connect = mysqli_connect($config["servername"], $config["username"], $config["password"], $config["dbname"]) or die("Connessione non riuscita" . mysqli_connect_error());
-$query = "SELECT nome, comune FROM fermata";
-$result = mysqli_query($connect, $query) or die("Query fallita" . mysqli_error($connect) . " " . mysqli_error($connect));
-
-$c = 0;
-while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) // solo numerico
-{
-	$fermate[$c] = "<option value=" . $row['nome'] . ">" . $row['nome'] . "</option>";
-	$c++;
-}
-?>
-
 <!DOCTYPE html>
 <html lang="it">
 
@@ -38,19 +23,9 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) // solo numerico
 			<div class="form-box">
 				<select class="search-field text-box" name="cars">
 					<option value="" disabled selected>Partenza</option>
-					<?php
-					foreach ($fermate as &$value) {
-						echo $value;
-					}
-					?>
 				</select>
 				<select class="search-field text-box" name="cars">
 					<option value="" disabled selected>Arrivo</option>
-					<?php
-					foreach ($fermate as &$value) {
-						echo $value;
-					}
-					?>
 				</select>
 				<input type="date" class="search-field date-time-box">
 				<input type="time" class="search-field hour-time-box">
