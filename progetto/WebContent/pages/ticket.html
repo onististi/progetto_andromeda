@@ -1,10 +1,185 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="it" dir="ltr">
+
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta charset="utf-8">
    <title>Ticket</title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 </head>
+
 <body>
-   
+   <header id="navbar_header">
+   </header>
+
+   <script>
+      $("#navbar_header").load('../components/navbar-login.html');
+   </script>
+
+
+   <div class="ticket">
+      <img class="company-logo" src="../assets/img/logo_vcotrasporti.png" width="100px">
+      <p class="company-name">VCO Trasporti</p>
+
+      <div class="description">
+         <p class="times" id="time_departure">7:33</p>
+         <p class="luoghi" id="partenza">Cannobio</p>
+
+         <div class="divisor">
+            <hr class="separator" id="separator_left" noshade>
+            <p class="duration">32m</p>
+            <hr class="separator" id="separator_right" noshade>
+         </div>
+
+         <p class="times" id="time_arrival">8:05</p>
+         <p class="luoghi" id="arrivo">Intra</p>
+
+         <p class="cost">$3,50</p>
+         <p class="total">Prezzo totale</p>
+      </div>
+
+      <button class="dropdown">0 Cambi <img src="../assets/img/kdown.png" width="25px"></button>
+
+   </div>
+
+   </div>
+
+
+   <footer id="footer">
+   </footer>
+
+   <script>
+      $("#footer").load('../components/footer.html');
+   </script>
+
+   <style>
+      body {
+         min-height: 100vh;
+         background-image: linear-gradient(120deg, #ff7979, #070D1F);
+      }
+
+      .ticket {
+         height: 200px;
+         width: 580px;
+         background: #f1f1f1;
+         padding: 80px 40px;
+         border-radius: 10px;
+         position: absolute;
+         left: 22%;
+         top: 30%;
+         transform: translate(-50%, -50%);
+      }
+
+      .company-logo {
+         position: absolute;
+         top: 10px;
+         left: 10px;
+      }
+
+      .company-name {
+         position: absolute;
+         top: 24px;
+         left: 12px;
+         font-size: 12px;
+         color: #5d5d5d;
+      }
+
+      .description {
+         position: absolute;
+         height: 100px;
+         width: 580px;
+         top: 55px;
+         left: 0px;
+      }
+
+      .times {
+         position: absolute;
+         font-weight: bold;
+         font-size: 22px;
+         color: #112f88;
+      }
+
+      #time_departure {
+         left: 10px;
+      }
+
+      .divisor {
+         position: absolute;
+         color: #5d5d5d;
+         font-size: 15px;
+         top: 12px;
+         left: 50px;
+         width: 200px;
+      }
+
+      .separator {
+         position: absolute;
+         height: 1px;
+         top: 18px;
+         width: 25px;
+      }
+
+      #separator_left {
+         left: 25%;
+      }
+
+      .duration {
+         text-align: center;
+         vertical-align: middle;
+      }
+
+      #separator_right {
+         right: 25%;
+      }
+
+      #time_arrival {
+         left: 250px;
+      }
+
+      .luoghi {
+         position: absolute;
+         top: 26px;
+         font-size: 16px;
+         color: #1f1f1f;
+      }
+
+      #partenza {
+         left: 10px;
+      }
+
+      #arrivo {
+         left: 250px;
+      }
+
+      .cost {
+         position: absolute;
+         font-weight: bold;
+         font-size: 22px;
+         color: #112f88;
+         right: 10px;
+      }
+
+      .total {
+         position: absolute;
+         top: 26px;
+         right: 10px;
+         font-size: 16px;
+         color: #1f1f1f;
+      }
+
+      .dropdown {
+         position: absolute;
+         font-size: 16px;
+         font-family: Poppins, sans-serif;
+         font-style: normal;
+         bottom: 20px;
+         left: 10px;
+         background-color: #ff7979;
+         border: none;
+         border-radius: .25rem;
+         color: #1f1f1f;
+      }
+   </style>
+
 </body>
+
 </html>

@@ -13,42 +13,40 @@ body {
 }
 
 .search-field{
+	margin-top: 5px;
+	margin-bottom: 5px;
 	height: 50px;
+	width: 160px;
+	color:#070D1F;
+	background-color: white;
 	padding: 10px;
-	border: none;
+	border: 0px solid black;
 	border-radius: .25rem;
 	outline:none;
 }
 
-.text-box{
-	width: 175px;
-	color:#070D1F;
-}
-
-.date-time-box {
-	width: 143px;
-	color:#070D1F;
-}
-
-.hour-time-box {
-	width: 90px;
-	color:#070D1F;
-}
-
 .search-btn{
 	height:50px;
-	width:150px;
-	background: #070D1F;
-	border: none;
-	color: white;
-	border-radius: .25rem;
+	width:50px;
+	background: #ff7979;
+	color: black;
 }
 .search-btn:hover{
-	background:#ff7979;
+	background:#070D1F;
 	cursor:pointer;
 }
 
 .form-box{
 	background: rgba(0,0,0,0.2);
 	padding: 20px;
+}
+
+.title{
+	font-size: 3vw;
+}
+
+.brand{
+	height: 5.5vw;
+	margin-left: 5px;
+	margin-right: 5px;
 }
