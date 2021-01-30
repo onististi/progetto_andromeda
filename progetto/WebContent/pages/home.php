@@ -2,7 +2,7 @@
 //connection
 $config = parse_ini_file("../config/key.ini");
 $connect = mysqli_connect($config["servername"], $config["username"], $config["password"], $config["dbname"]) or die("Connessione non riuscita" . mysqli_connect_error());
-$query = "SELECT * FROM fermata";
+$query = "SELECT nome, comune FROM fermata";
 $result = mysqli_query($connect, $query) or die("Query fallita" . mysqli_error($connect) . " " . mysqli_error($connect));
 
 $c = 0;
