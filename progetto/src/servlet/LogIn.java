@@ -22,17 +22,20 @@ public class LogIn extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nome = request.getParameter("username");
-		String passH = request.getParameter("password");
+		String password = request.getParameter("password");
 		
 		UtenteBean utente = new UtenteBean();
-		utente.setUsername(nome);
+		
+		try {
+			utente.setUsername(nome);
+			utente.setPassword(password);
+		} catch (Exception e1) {e1.printStackTrace();}
 		
 		UtenteClass controller = new UtenteClass();
 		try {
 			controller.log(utente);
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -24,19 +24,18 @@ public class Signup extends HttpServlet {
 		UtenteClass utenteC = new UtenteClass();
 		
 		String username = request.getParameter("username");
-		String password= request.getParameter ("password");
+		String password= request.getParameter("password");
 		
 		UtenteBean utente = new UtenteBean();
-		utente.setUsername(username);
-		utente.setPassword(password);
+		
+		try {
+			utente.setUsername(username);
+			utente.setPasswordCript(password);
+		} catch (Exception e1) {e1.printStackTrace();}
 		
 		try {
 			utenteC.registrazione(utente);
 			response.sendRedirect("pages/home.jsp");
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
+		} catch(Exception e) {e.printStackTrace();}
 	}
-
 }
