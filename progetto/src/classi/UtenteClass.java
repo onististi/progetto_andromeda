@@ -4,7 +4,6 @@ import java.sql.*;
 import beans.UtenteBean;
 import classi.Cript;
 
-import classi.Cript;
 
 public class UtenteClass {
 
@@ -42,20 +41,17 @@ public class UtenteClass {
 	        String passwordh = rs.getString("password");
 	        
 	        String password = utente.getPassword();
-	        System.out.println("non criptata"+utente.getPassword());
 	        
 	        Cript cripter = new Cript();
-	       String decriptata =  cripter.decript(passwordh);
+	        String decriptata =  cripter.Decrypt(passwordh,"77");
 	        
-	        if(password == decriptata) {
+	        if(decriptata.equals(password)) 
 	        	System.out.println("mhanz");
-	        }else {
-			System.out.println(passwordh+" "+password+" "+decriptata);
-	        }
-	        
+	          
 	        con.close();
-	    } catch(SQLException e) {printSQLException(e);}		
-		    return result;
+	    } catch(SQLException e) {printSQLException(e);}	
+		
+		    return result;	   
 	}
 	
 	

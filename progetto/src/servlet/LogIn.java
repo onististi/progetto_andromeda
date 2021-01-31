@@ -29,13 +29,17 @@ public class LogIn extends HttpServlet {
 		try {
 			utente.setUsername(nome);
 			utente.setPassword(password);
+			
 		} catch (Exception e1) {e1.printStackTrace();}
 		
 		UtenteClass controller = new UtenteClass();
 		try {
-			controller.log(utente);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			
+			if(controller.log(utente)==0)
+				response.sendRedirect("pages/home.jsp");
+			else
+				response.sendRedirect("auth/login.html");
+				
+		} catch (Exception e) {e.printStackTrace();}
 	}
 }

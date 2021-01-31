@@ -29,7 +29,7 @@ public class UtenteBean {
 	public void setPasswordCript(String password) throws Exception{
 		
 		Cript criptante = new Cript();
-		String passwordH = criptante.cript(password);
+		String passwordH = criptante.Encrypt(password,"77");
 		this.password = passwordH;
 	}
 }
