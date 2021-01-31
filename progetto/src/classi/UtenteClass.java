@@ -3,6 +3,7 @@ package classi;
 import java.sql.*;
 import beans.UtenteBean;
 
+
 public class UtenteClass {
 
 	public int registrazione(UtenteBean utente) throws ClassNotFoundException, SQLException {
@@ -12,7 +13,7 @@ public class UtenteClass {
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		
-		try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/androme?useSSL=false", "root", "root")){
+		try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22")){
 			
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, utente.getUsername());
@@ -20,13 +21,31 @@ public class UtenteClass {
 			
 			result = ps.executeUpdate();	
 			
-		}catch (SQLException e) {
-			printSQLException(e);
-		}
+		}catch (SQLException e) {printSQLException(e);}
 		
 		return result;
 	}
 		
+	
+	public int log(UtenteBean utente) throws ClassNotFoundException {
+		int result = 0;
+		String sql="SELECT * FROM utente WHERE username ="+"'"+ utente.getUsername() +"'";
+		
+		try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22");
+	        Statement stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(sql);
+	        rs.next();
+	        System.out.println(rs.getString("username"));
+	        
+	        con.close();
+	    } catch(SQLException e) {printSQLException(e);}
+		    
+		    return result;
+	}
+	
+	
 	private void printSQLException(SQLException ex) {
         for (Throwable e: ex) {
             if (e instanceof SQLException) {

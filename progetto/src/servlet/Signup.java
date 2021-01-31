@@ -11,11 +11,11 @@ import beans.UtenteBean;
 
 import classi.UtenteClass;
 
-@WebServlet("registrazione")
-public class signup extends HttpServlet {
+@WebServlet("/registrazione")
+public class Signup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public signup() {
+    public Signup() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,11 +32,11 @@ public class signup extends HttpServlet {
 		
 		try {
 			utenteC.registrazione(utente);
+			response.sendRedirect("pages/home.jsp");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		response.sendRedirect("home.jsp");
 	}
 
 }
