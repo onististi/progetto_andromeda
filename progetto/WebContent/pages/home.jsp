@@ -34,7 +34,7 @@
 	</script>
 
 	<div class="background">
-		<form action="ticket.jsp">
+		<form action="../ticket" method="post">
 			<div class="form-box">
 				
 				<input class="search-field text-box" placeholder="Partenza" type="text" list="comuni" name="partenza" ></input>
