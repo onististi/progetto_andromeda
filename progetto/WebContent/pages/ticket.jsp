@@ -124,12 +124,6 @@
 
 
 
-   
-<%  session = request.getSession();
-String k = (String) session.getAttribute("tickets"); 
-out.println(k);
-%>
-
    <footer id="footer">
    </footer>
 

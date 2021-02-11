@@ -1,6 +1,6 @@
 package beans;
 
-public class TicketsBean {
+public class TicketBean {
 
 	private int id_percorso;
 	private String nome_linea;
@@ -11,10 +11,25 @@ public class TicketsBean {
 	private String orario;
 	private int ritardo;
 	
-	public TicketsBean() {
+	public TicketBean() {
 		this.ritardo = 0;
 		this.coordinata1 = 0;
 		this.coordinata2= 0;
+	}
+	
+	public TicketBean creamento(int id_p, String nome_l, String comu, String nom, String coordinata, String ora, int rita) {
+		this.setId_percorso(id_p);
+		this.setNome_linea(nome_l);
+		
+		this.setNome(nom);
+		this.setComune(comu);
+		this.setOrario(ora);
+		this.setOrario(ora);
+		this.setRitardo(rita);
+		
+		this.setCoordinate(coordinata);
+		
+		return this;
 	}
 	
 	public void setCoordinate(String coordinata) {

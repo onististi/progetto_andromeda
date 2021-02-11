@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import classi.Cript;
-import beans.TicketsBean;
+import beans.TicketBean;
 
 @WebServlet("/ticket")
 public class ticket extends HttpServlet {
@@ -40,26 +40,23 @@ public class ticket extends HttpServlet {
 		String partenza = request.getParameter("partenza");
 		String arrivo = request.getParameter("arrivo");
 		String ora = request.getParameter("ora");
-		String giorno = request.getParameter("giorno");
-		
-		ArrayList<TicketsBean> tickets = new ArrayList<TicketsBean>();
+		String giorno = request.getParameter("giorno");		
 		
 		String sql="SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo FROM percorso "
 				+ "INNER JOIN direzione on direzione.id = percorso.id_direzione "
 				+ "INNER JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
 				+ "INNER JOIN fermata F on F.id = fermata_percorso.id_fermata "
-				+ "WHERE fermata_percorso.orario > '14:20' "
-				+ "AND fermata_percorso.andata = 0 "
+				+ "WHERE fermata_percorso.andata = 0 "
 				+ "AND percorso.id IN("
-				+ "SELECT id AS mmm FROM percorso "
-				+ "JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
-				+ "JOIN (SELECT DISTINCT id AS KK FROM fermata \r\n"
-				+ "WHERE fermata.nome = \"Domodossola F.S.\") FE on FE.KK = fermata_percorso.id_fermata) "
-				+ "AND percorso.id IN(  "
-				+ "SELECT id AS mmm FROM percorso "
-				+ "JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
-				+ "JOIN (SELECT DISTINCT id AS KK FROM fermata "
-				+ "WHERE fermata.nome = \"Viganella\") FEE on FEE.KK = fermata_percorso.id_fermata) "
+				+ " SELECT percorso.id AS iddd FROM percorso"
+				+ "    JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id"
+				+ "    JOIN fermata on fermata.id = fermata_percorso.id_fermata"
+				+ "    	WHERE fermata.comune = 'Domodossola' AND fermata_percorso.orario > '14:10')"
+				+ "AND percorso.id IN("
+				+ " SELECT percorso.id AS iddd FROM percorso "
+				+ "    JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
+				+ "    JOIN fermata on fermata.id = fermata_percorso.id_fermata "
+				+ "    WHERE fermata.comune = 'Crevoladossola' AND fermata_percorso.orario > '14:10')"
 				+ "ORDER BY percorso.id, fermata_percorso.orario";
 		
 		try {
@@ -68,19 +65,40 @@ public class ticket extends HttpServlet {
 	        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22");
 	        Statement stmt = con.createStatement();
 	        ResultSet rs = stmt.executeQuery(sql);
-	        rs.next();
-	                
-	        
-	        String h = rs.getString("nome");
-	        
+	            
+	       ArrayList<TicketBean> tickets = new ArrayList<TicketBean>();
+	       TicketBean ticket = new TicketBean(); 
+	       boolean p = false; 
+	       boolean a = false;
+	       boolean c = false;
+	       int percorso = 0;
+	       
+	        while(rs.next()) {
+	        	
+	        if(c && !rs.getString("comune").equals(arrivo))
+	        	a = true;
+	        	
+	        	if(rs.getString("comune").equals(partenza)) {
+	        		p = true;
+	        		a = false;
+	        		c = false;
+	        	}
+	        	
+	        	if(p && !a) {
+	        		tickets.add(ticket.creamento(rs.getInt("percorso_id"), rs.getString("nome_linea"), rs.getString("comune"), rs.getString("nome"), rs.getString("coordinate"), rs.getString("orario"), rs.getInt("ritardo")));
+	        		System.out.println(tickets.get(tickets.size()-1).getComune()+" "+tickets.get(tickets.size()-1).getOrario()+ " "+tickets.get(tickets.size()-1).getId_percorso());
+	        	}
+	        	
+	        	if(rs.getString("comune").equals(arrivo)) 
+	        		c = true;       	
+	        }
+
 	        HttpSession session = request.getSession();
-	  	  session.setAttribute("tickets",h);
-	  	  response.sendRedirect("pages/ticket.jsp");
+	  	    session.setAttribute("tickets",tickets);
+	  	    response.sendRedirect("pages/ticket.jsp");
 			con.close();
 			
-	    } catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}		
+	    } catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}		
 	}		
 
 	private void printSQLException(SQLException ex) {
