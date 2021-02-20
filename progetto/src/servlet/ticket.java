@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import classi.TicketClass;
 import classi.Cript;
 import beans.TicketBean;
 
@@ -32,11 +32,10 @@ public class ticket extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ServletContext sc = request.getSession().getServletContext();
-		int result = 0;
 		String partenza = request.getParameter("partenza");
 		String arrivo = request.getParameter("arrivo");
 		String ora = request.getParameter("ora");
@@ -59,44 +58,13 @@ public class ticket extends HttpServlet {
 				+ "    WHERE fermata.comune = 'Crevoladossola' AND fermata_percorso.orario > '14:10')"
 				+ "ORDER BY percorso.id, fermata_percorso.orario";
 		
-		try {
-			
-	        Class.forName("com.mysql.cj.jdbc.Driver");
-	        Connection con = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22");
-	        Statement stmt = con.createStatement();
-	        ResultSet rs = stmt.executeQuery(sql);
-	            
-	       ArrayList<TicketBean> tickets = new ArrayList<TicketBean>();
-	       TicketBean ticket = new TicketBean(); 
-	       boolean p = false; 
-	       boolean a = false;
-	       boolean c = false;
-	       int percorso = 0;
-	       
-	        while(rs.next()) {
-	        	
-	        if(c && !rs.getString("comune").equals(arrivo))
-	        	a = true;
-	        	
-	        	if(rs.getString("comune").equals(partenza)) {
-	        		p = true;
-	        		a = false;
-	        		c = false;
-	        	}
-	        	
-	        	if(p && !a) {
-	        		tickets.add(ticket.creamento(rs.getInt("percorso_id"), rs.getString("nome_linea"), rs.getString("comune"), rs.getString("nome"), rs.getString("coordinate"), rs.getString("orario"), rs.getInt("ritardo")));
-	        		System.out.println(tickets.get(tickets.size()-1).getComune()+" "+tickets.get(tickets.size()-1).getOrario()+ " "+tickets.get(tickets.size()-1).getId_percorso());
-	        	}
-	        	
-	        	if(rs.getString("comune").equals(arrivo)) 
-	        		c = true;       	
-	        }
+		TicketClass ticket = new TicketClass(partenza, arrivo, ora, giorno);
+		
+		try {			
 
 	        HttpSession session = request.getSession();
-	  	    session.setAttribute("tickets",tickets);
+	  	    session.setAttribute("tickets", ticket.creaBiglietto(sql));
 	  	    response.sendRedirect("pages/ticket.jsp");
-			con.close();
 			
 	    } catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}		
 	}		
