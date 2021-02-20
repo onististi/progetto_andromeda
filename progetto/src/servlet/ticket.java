@@ -27,7 +27,6 @@ public class ticket extends HttpServlet {
        
     public ticket() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,34 +35,12 @@ public class ticket extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ServletContext sc = request.getSession().getServletContext();
-		String partenza = request.getParameter("partenza");
-		String arrivo = request.getParameter("arrivo");
-		String ora = request.getParameter("ora");
-		String giorno = request.getParameter("giorno");		
-		
-		String sql="SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo FROM percorso "
-				+ "INNER JOIN direzione on direzione.id = percorso.id_direzione "
-				+ "INNER JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
-				+ "INNER JOIN fermata F on F.id = fermata_percorso.id_fermata "
-				+ "WHERE fermata_percorso.andata = 0 "
-				+ "AND percorso.id IN("
-				+ " SELECT percorso.id AS iddd FROM percorso"
-				+ "    JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id"
-				+ "    JOIN fermata on fermata.id = fermata_percorso.id_fermata"
-				+ "    	WHERE fermata.comune = 'Domodossola' AND fermata_percorso.orario > '14:10')"
-				+ "AND percorso.id IN("
-				+ " SELECT percorso.id AS iddd FROM percorso "
-				+ "    JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
-				+ "    JOIN fermata on fermata.id = fermata_percorso.id_fermata "
-				+ "    WHERE fermata.comune = 'Crevoladossola' AND fermata_percorso.orario > '14:10')"
-				+ "ORDER BY percorso.id, fermata_percorso.orario";
-		
-		TicketClass ticket = new TicketClass(partenza, arrivo, ora, giorno);
+		TicketClass ticket = new TicketClass( request.getParameter("partenza"), request.getParameter("arrivo"), request.getParameter("ora"), request.getParameter("giorno"));
 		
 		try {			
 
 	        HttpSession session = request.getSession();
-	  	    session.setAttribute("tickets", ticket.creaBiglietto(sql));
+	  	    session.setAttribute("tickets", ticket.creaTickets());
 	  	    response.sendRedirect("pages/ticket.jsp");
 			
 	    } catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}		

@@ -9,14 +9,15 @@ import javax.servlet.http.HttpSession;
 import beans.TicketBean;
 
 public class TicketClass {
-
+	
+	private String sql;
 	private int andata =0;
 	public ResultSet rs;
 	public ResultSet rsA;
 	public String partenza;
 	public String arrivo;
 	public String ora;
-	public String giorno;
+	public String giorno;	
 	public ArrayList<TicketBean> tickets;
 	
 	public TicketClass(String p, String a, String o, String g) {
@@ -27,21 +28,29 @@ public class TicketClass {
 		this.tickets = new ArrayList<TicketBean>();
 	}
 	
+	
 	public int getAndata() {return this.andata;}
 	public void setAndata(int n) {this.andata=n;}
-	
-	
-	public ArrayList<TicketBean> creaBiglietto(String sql) throws SQLException, ClassNotFoundException {
-		
-		query(sql);
-	    this.andata = controlla_andata(this.rsA);
-	 		System.out.println("andata "+andata); 	
-		
-	 	if(this.andata == 0) 
-	 		creaBean();
-	 	else {
-	 		
-	 		String sqlR="SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo FROM percorso "
+	public void setSql(boolean a) {
+		if(!a)
+			this.sql = "SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo FROM percorso "
+					+ "INNER JOIN direzione on direzione.id = percorso.id_direzione "
+					+ "INNER JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
+					+ "INNER JOIN fermata F on F.id = fermata_percorso.id_fermata "
+					+ "WHERE fermata_percorso.andata = 0 "
+					+ "AND percorso.id IN("
+					+ " SELECT percorso.id AS iddd FROM percorso"
+					+ "    JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id"
+					+ "    JOIN fermata on fermata.id = fermata_percorso.id_fermata"
+					+ "    	WHERE fermata.comune = 'Domodossola' AND fermata_percorso.orario > '14:10')"
+					+ "AND percorso.id IN("
+					+ " SELECT percorso.id AS iddd FROM percorso "
+					+ "    JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
+					+ "    JOIN fermata on fermata.id = fermata_percorso.id_fermata "
+					+ "    WHERE fermata.comune = 'Crevoladossola' AND fermata_percorso.orario > '14:10')"
+					+ "ORDER BY percorso.id, fermata_percorso.orario";
+		else
+			this.sql = "SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo FROM percorso "
 					+ "INNER JOIN direzione on direzione.id = percorso.id_direzione "
 					+ "INNER JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
 					+ "INNER JOIN fermata F on F.id = fermata_percorso.id_fermata "
@@ -57,8 +66,20 @@ public class TicketClass {
 					+ "    JOIN fermata on fermata.id = fermata_percorso.id_fermata "
 					+ "    WHERE fermata.comune = 'Crevoladossola' AND fermata_percorso.orario > '14:10')"
 					+ "ORDER BY percorso.id, fermata_percorso.orario";
-	 		
-	 		query(sqlR);
+	}
+	
+	public ArrayList<TicketBean> creaTickets() throws SQLException, ClassNotFoundException {
+		
+		setSql(false);	//false sta per andata= 0
+		query(false);  
+	    this.andata = controlla_andata(this.rsA);
+	 		System.out.println("andata "+andata); 	
+		
+	 	if(this.andata == 0) 
+	 		creaBean();
+	 	else {
+	 		setSql(true);	//è vero è ritorno
+	 		query(true);
 	 		creaBean();
 	 	}
 	 	
@@ -76,14 +97,16 @@ public class TicketClass {
 	}
 	
 	
-	public void query(String sql) throws ClassNotFoundException {
+	public void query(boolean r) throws ClassNotFoundException {
 		try {
-		
+			
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22");
-		    Statement stmt = con.createStatement();
-		   this.rs = stmt.executeQuery(sql);
-		   this.rsA = rs;   
+		   Statement stmt = con.createStatement();
+		   this.rs = stmt.executeQuery(this.sql);
+		   
+		   if(!r) //se è la prima volta che entra ovvero quando la chiama subito in creaBiglietto
+			   this.rsA = rs;   
 	
 		} catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}		
     }
@@ -100,9 +123,9 @@ public class TicketClass {
      while(rs.next()) {
      	
      	if(c && !rs.getString("comune").equals(this.arrivo)) {
-     		p=false;
-				a=true;
-				c=false;
+     		p=false;	 //variabili per far prendere dalla query risultante(rs) solo da quando trova la prima fermata delle due all arrivo finale(quindi anche se ripetuto perche è per comuni)
+			a=true;
+			c=false;
      	}
      	
      	if(rs.getString("comune").equals(this.partenza)) {
@@ -122,7 +145,7 @@ public class TicketClass {
     	}catch(SQLException e) {printSQLException(e);}		
 	}
 
-
+	
 	private void printSQLException(SQLException ex) {
 	    for (Throwable e: ex) {
 	        if (e instanceof SQLException) {
@@ -138,4 +161,4 @@ public class TicketClass {
 	        }
 	    }
 	}
-	}
+}
