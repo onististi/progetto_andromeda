@@ -12,9 +12,10 @@
     <header id="navbar_header">
     </header>
 
-    <script>
+    <script>  
         $("#navbar_header").load('../components/navbar-login.html');
     </script>
+    
     <form name="login_user" class="login-form" action="../login" method="POST">
         <h1>Accedi</h1>
 
@@ -52,8 +53,15 @@
     </footer>
 
     <script>
-        $("#footer").load('../components/footer.html');
+        $("#footer").load('../components/footer.html');       
+        
+ window.onload = function(){
+ 	let urls = document.URL;
+ 	var url = new URL(urls);
+ 	
+ 	if(url.searchParams.get("e") == 1)
+ 		alert("username o password errati");
+ }
     </script>
 </body>
-
 </html>

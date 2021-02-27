@@ -99,11 +99,18 @@ public class TicketClass {
 	
 	public void query(boolean r) throws ClassNotFoundException {
 		try {
-			
+			System.out.println(this.partenza+this.arrivo);
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22");
 		   Statement stmt = con.createStatement();
 		   this.rs = stmt.executeQuery(this.sql);
+		   
+		   this.rs.next();
+		   if(this.rs.wasNull()){
+			   System.out.println("indfsiosdn");
+			   return;
+		   }else
+			   rs.previous();
 		   
 		   if(!r) //se è la prima volta che entra ovvero quando la chiama subito in creaBiglietto
 			   this.rsA = rs;   
@@ -141,7 +148,6 @@ public class TicketClass {
      	if(rs.getString("comune").equals(this.arrivo))
      		c = true;
      }
-     
     	}catch(SQLException e) {printSQLException(e);}		
 	}
 

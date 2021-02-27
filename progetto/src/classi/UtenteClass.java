@@ -29,7 +29,6 @@ public class UtenteClass {
 		
 	
 	public int log(UtenteBean utente) throws Exception {
-		int result = 0;
 		String sql="SELECT * FROM utente WHERE username ="+"'"+ utente.getUsername() +"'";
 		
 		try {
@@ -45,13 +44,15 @@ public class UtenteClass {
 	        Cript cripter = new Cript();
 	        String decriptata =  cripter.Decrypt(passwordh,"cavolo22");
 	        
-	        if(decriptata.equals(password)) 
-	        	System.out.println("mhanz");
-	          
-	        con.close();
-	    } catch(SQLException e) {printSQLException(e);}	
-		
-		    return result;	   
+	        if(decriptata.equals(password)) {
+	        	System.out.println("login corretto");
+	        	return 0;
+	        }else{
+	        	System.out.println("login errato");
+	        	return 1;
+	        }
+	    } catch(SQLException e) {printSQLException(e);}	  
+		return 1;
 	}
 	
 	

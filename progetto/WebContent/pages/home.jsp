@@ -10,6 +10,12 @@
 
 </head>
 
+<style>
+input[type=time] {
+  width: 90px;
+}
+</style>
+
 <body>
 
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
@@ -30,16 +36,15 @@
 	</header>
 
 	<script>
-		$("#navbar_header").load('../components/navbar-home.html');
+		$("#navbar_header").load('../components/navbar-home.jsp');
 	</script>
-
 	<div class="background">
 		<form action="../ticket" method="post">
 			<div class="form-box">
 				
-				<input class="search-field text-box" placeholder="Partenza" type="text" list="comuni" name="partenza" ></input>
-				<input class="search-field text-box" placeholder="Arrivo" type="text" list="comuni" name="arrivo"></input>
-				<input type="date" class="search-field date-time-box"></input>
+				<input class="search-field text-box" placeholder="Comune Partenza" type="text" list="comuni" name="partenza" ></input>
+				<input class="search-field text-box" placeholder="Comune Arrivo" type="text" list="comuni" name="arrivo"></input>
+				<!--  <input type="date" class="search-field date-time-box"></input> -->
 				<input type="time" class="search-field hour-time-box"></input>
 				
 				<button class="search-field search-btn" type="submit"><img src="../assets/img/search.png" alt="Search" width="30px"></button>

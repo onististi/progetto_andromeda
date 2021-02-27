@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.UtenteBean;
 
@@ -35,10 +36,12 @@ public class LogIn extends HttpServlet {
 		UtenteClass controller = new UtenteClass();
 		try {
 			
-			if(controller.log(utente)==0)
+			if(controller.log(utente)==0) {
+				HttpSession session = request.getSession();
+		  	    session.setAttribute("username", utente.getUsername());
 				response.sendRedirect("pages/home.jsp");
-			else
-				response.sendRedirect("auth/login.html");
+			}else
+				response.sendRedirect("auth/login.html?e=1");
 				
 		} catch (Exception e) {e.printStackTrace();}
 	}

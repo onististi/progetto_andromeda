@@ -13,7 +13,7 @@
 
 <body>
     <header class="header">
-        <a href="home.php" class="header__logo">PianetaBus</a>
+        <a href="home.jsp" class="header__logo">PianetaBus</a>
         <ion-icon name="menu-outline" class="header__toggle" id="nav-toggle"></ion-icon>
 
         <nav class="nav" id="nav-menu">
@@ -38,13 +38,12 @@
                 </div>
 
                 <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+           		     <a class="nav-link"><% if(session.getAttribute("username")!=null){ out.println(session.getAttribute("username"));} %></a>&nbsp;
                     <a class="nav-link" href="../auth/login.html"><img src="../assets/img/user.png" width="40px"></a>
                 </div>
             </div>
         </nav>
     </header>
-
-
 
     <!-- ===== IONICONS ===== -->
     <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
