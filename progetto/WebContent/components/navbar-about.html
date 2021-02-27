@@ -24,7 +24,7 @@
                 <div class="nav__perfil">
                     <img src="../assets/img/logo-logo.png" style="width: 40px; height: 40px; margin-right: 9%;">
                     <div>
-                        <a href="home.php" class="nav__name">PianetaBus</a>
+                        <a href="home.jsp" class="nav__name">PianetaBus</a>
                         <span class="nav__profesion">Search Engine</span>
                     </div>
                 </div>
