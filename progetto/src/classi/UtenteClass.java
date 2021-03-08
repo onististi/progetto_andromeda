@@ -1,6 +1,7 @@
 package classi;
 
 import java.sql.*;
+import java.io.File;
 import beans.UtenteBean;
 import classi.Cript;
 
@@ -13,6 +14,8 @@ public class UtenteClass {
 		
 		String sql="INSERT INTO utente (username, password) VALUES (?, ?)";
 		Class.forName("com.mysql.jdbc.Driver");
+		
+		
 		
 		try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22")){
 			
