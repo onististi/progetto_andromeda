@@ -31,20 +31,19 @@
 
                 <div class="nav__menu">
                     <ul class="nav__list">
-                        <li class="nav__item"><a href="home.jsp" class="nav__link">Home</a></li>
-                        <li class="nav__item"><a href="about.html" class="nav__link active">Chi siamo</a></li>
+                        <li class="nav__item"><a href="home.jsp" class="nav__link active">Home</a></li>
+                        <li class="nav__item"><a href="about.html" class="nav__link">Chi siamo</a></li>
                         <li class="nav__item"><a href="contact.html" class="nav__link">Contattaci</a></li>
                     </ul>
                 </div>
 
                 <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+           		     <a class="nav-link"><% if(session.getAttribute("username")!=null){ out.println(session.getAttribute("username"));} %></a>&nbsp;
                     <a class="nav-link" href="../auth/login.html"><img src="../assets/img/user.png" width="40px"></a>
                 </div>
             </div>
         </nav>
     </header>
-
-
 
     <!-- ===== IONICONS ===== -->
     <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>

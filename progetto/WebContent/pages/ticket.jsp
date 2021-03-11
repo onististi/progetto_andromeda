@@ -9,12 +9,29 @@
    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
    <link rel="stylesheet" href="../assets/css/ticket.css" >
    <link rel="stylesheet" href="../assets/css/navbar.css" >
+   <style>
+   
+   li ul {
+    display: none;
+}
+
+li.open > ul, li.open > div {
+    display: block;
+}
+
+   </style>
 </head>
 <body>
-   <object type="text/html" class ="header"data="../components/navbar-ticket.html"></object>
+   <header id="navbar_header">
+	</header>
 
-<div class="row">
+	<script>
+		$("#navbar_header").load('../components/navbar-home.jsp');
+	</script>
+
+<main>
    <div class="column" >
+   
    <div class="ticket">
       <img class="company-logo" src="../assets/img/logo_vcotrasporti.png" width="100px">
       <p class="company-name">VCO Trasporti</p>
@@ -39,80 +56,27 @@
       </div>
    </div>
 
-   <div class="ticket">
-      <img class="company-logo" src="../assets/img/logo_vcotrasporti.png" width="100px">
-      <p class="company-name">VCO Trasporti</p>
-
-      <div class="description">
-         <p class="times" id="time_departure">7:33</p>
-         <p class="luoghi" id="partenza">Cannobio</p>
-
-         <div class="divisor">
-            <hr class="separator" id="separator_left" noshade>
-            <p class="duration">32m</p>
-            <hr class="separator" id="separator_right" noshade>
-         </div>
-
-         <p class="times" id="time_arrival">8:05</p>
-         <p class="luoghi" id="arrivo">Intra</p>
-      </div>
-
-      <button class="cambi" onclick="showCambi(1)">0 cambi<img class="arrow" src="../assets/img/kdown.png"
-            width="25px"></button>
-      <div class="ticket-cambi">
-      </div>
-   </div>
-
-   <div class="ticket">
-      <img class="company-logo" src="../assets/img/logo_vcotrasporti.png" width="100px">
-      <p class="company-name">VCO Trasporti</p>
-
-      <div class="description">
-         <p class="times" id="time_departure">7:33</p>
-         <p class="luoghi" id="partenza">Cannobio</p>
-
-         <div class="divisor">
-            <hr class="separator" id="separator_left" noshade>
-            <p class="duration">32m</p>
-            <hr class="separator" id="separator_right" noshade>
-         </div>
-
-         <p class="times" id="time_arrival">8:05</p>
-         <p class="luoghi" id="arrivo">Intra</p>
-      </div>
-
-      <button class="cambi" onclick="showCambi(2)">0 cambi<img class="arrow" src="../assets/img/kdown.png"
-            width="25px"></button>
-      <div class="ticket-cambi">
-      </div>
-   </div>
 </div>
+
    <div class="column">
-   <div id="mapid" class="map" ></div></div></div>
+   	<div id="mapid" class="map" ></div>
+   </div>
+</main>
+<div class="div1 div2"></div>
 
-<body>
-    <footer>
-        <center>
-            <div class="container">
-                <div class="row">
-                    <div class="col-6 col-md-auto order-1 order-md-1">
-                        <a class="logo-footer">
-                            <img src="../assets/img/logo-logo.png" width="75" height="75" alt="Logo BRT - white">
-                        </a>
-                    </div>
-                    <div class="col order-last order-md-2 text-footer">
-
-                        <div class="viewPar BLOBAlignLeft">
-                            <p><strong class="userFormat1">PianetaBus</strong> Tutti i diritti riservati
-                            </p>
-                        </div>
-                    </div>
-                </div>
-        </center>
-    </footer>
-
+	<script>
+		$("#footer").load('../components/footer.html');
+	</script>
 
    <script>
+   $('button').on('click', function(){
+	    if(!$(this).parents().hasClass('open')){
+	        $('li').removeClass('open');    
+	    }
+	    $(this).parent().addClass('open');
+	});
+   
+   
       var showed = false;
       function showCambi(index) {
          var listTicket = document.getElementsByClassName("ticket");
@@ -129,6 +93,7 @@
 
             list[index].innerHTML += "<div class='card-fermate' ><div class='description-travel'><p class='times' id='time_departure'>7:33</p><p class='luoghi' id='partenza'>Cannobio</p><div class='divisor'><hr class='separator' id='separator_left' noshade><p class='duration'>32m</p><hr class='separator' id='separator_right' noshade></div><p class='times' id='time_arrival'>8:05</p><p class='luoghi' id='arrivo'>Intra</p></div></div>";
             list[index + 1].style.marginTop = "170px";
+            
          }
          else {
             showed = false;
