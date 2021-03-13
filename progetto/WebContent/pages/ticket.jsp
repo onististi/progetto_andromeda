@@ -55,8 +55,32 @@ li.open > ul, li.open > div {
       <div class="ticket-cambi">
       </div>
    </div>
+   
+      <div class="ticket">
+      <img class="company-logo" src="../assets/img/logo_vcotrasporti.png" width="100px">
+      <p class="company-name">VCO Trasporti</p>
 
-</div>
+      <div class="description">
+         <p class="times" id="time_departure">7:33</p>
+         <p class="luoghi" id="partenza">Cannobio</p>
+
+         <div class="divisor">
+            <hr class="separator" id="separator_left" noshade>
+            <p class="duration">32m</p>
+            <hr class="separator" id="separator_right" noshade>
+         </div>
+
+         <p class="times" id="time_arrival">8:05</p>
+         <p class="luoghi" id="arrivo">Intra</p>
+      </div>
+
+      <button class="cambi" onclick="showCambi(0)">0 cambi<img class="arrow" src="../assets/img/kdown.png"
+            width="25px"></button>
+      <div class="ticket-cambi">
+      </div>
+   </div>
+
+  </div>
 
    <div class="column">
    	<div id="mapid" class="map" ></div>
