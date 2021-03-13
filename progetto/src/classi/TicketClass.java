@@ -22,7 +22,6 @@ public class TicketClass {
 	public String ora;
 	public String giorno;	
 	public ArrayList<TicketBean> tickets;
-	public ArrayList<ArrayList<TicketBean>> spezzatos;
 	public HashMap<Integer,ArrayList<TicketBean>> spezzato;
 	
 	public TicketClass(String p, String a, String o, String g) {
@@ -80,7 +79,7 @@ public class TicketClass {
 	public HashMap<Integer,ArrayList<TicketBean>> creaTickets() throws SQLException, ClassNotFoundException {
 		
 		setSql(false);	//false sta per andata= 0
-		query(false);  
+		if(query(false)) {  
 	    this.andata = controlla_andata(this.rsA);
 	 		System.out.println("andata "+andata); 	
 		
@@ -97,6 +96,9 @@ public class TicketClass {
 	 	dividiTickets();
 	 	stampaS();
 	 	return this.spezzato;
+		}else {
+			return this.spezzato;
+		}
 	}
 	
 	
@@ -142,7 +144,7 @@ public class TicketClass {
 	}
 	
 	
-	public void query(boolean r) throws ClassNotFoundException {
+	public boolean query(boolean r) throws ClassNotFoundException {
 		try {
 			System.out.println(this.partenza+this.arrivo);
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -150,17 +152,17 @@ public class TicketClass {
 		   Statement stmt = con.createStatement();
 		   this.rs = stmt.executeQuery(this.sql);
 		   
-		   this.rs.next();
-		   if(this.rs.wasNull()){
-			   System.out.println("indfsiosdn");
-			   return;
+		  
+		   if(!this.rs.next()){
+			   return false;
 		   }else
 			   rs.previous();
 		   
 		   if(!r) //se è la prima volta che entra ovvero quando la chiama subito in creaBiglietto
 			   this.rsA = rs;   
-	
-		} catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}		
+		   return true;
+		} catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}	
+		return true;
     }
 	
 	 

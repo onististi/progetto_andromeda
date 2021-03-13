@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.ArrayList;
 import classi.TicketClass;
 import classi.Cript;
 import beans.TicketBean;
@@ -41,14 +44,15 @@ public class ticket extends HttpServlet {
 		try {			
 
 	        HttpSession session = request.getSession();
-	  	   // session.setAttribute("tickets", ticket.creaTickets());
-	  	    //response.sendRedirect("pages/ticket.jsp");
-			
-	  	    
-	  	  request.setAttribute("tickets", ticket.creaTickets());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/ticket.jsp");
-			dispatcher.forward(request, response);
-	  	    
+	        HashMap<Integer,ArrayList<TicketBean>> tickets = ticket.creaTickets();
+	        
+	  	    if(tickets.isEmpty())
+	  	    	response.sendRedirect("pages/home.jsp?e=1");
+	  	    else {
+		  	    request.setAttribute("tickets", tickets);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("pages/ticket.jsp");
+				dispatcher.forward(request, response);
+	  	    }
 	    } catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}		
 	}		
 

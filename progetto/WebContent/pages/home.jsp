@@ -37,13 +37,19 @@ input[type=time] {
 
 	<script>
 		$("#navbar_header").load('../components/navbar-home.jsp');
+		
+		var url_string = window.location.href; //window.location.href
+		var url = new URL(url_string);
+		var c = url.searchParams.get("e");
+		if(c==1)
+			alert("i due comuni inseriti non hanno tratte in comune");
 	</script>
 	<div class="background">
 		<form action="../ticket" method="post">
 			<div class="form-box">
 				
-				<input class="search-field text-box" placeholder="Comune Partenza" type="text" list="comuni" name="partenza" ></input>
-				<input class="search-field text-box" placeholder="Comune Arrivo" type="text" list="comuni" name="arrivo"></input>
+				<input class="search-field text-box" placeholder="Comune Partenza" type="text" list="comuni" name="partenza" required ></input>
+				<input class="search-field text-box" placeholder="Comune Arrivo" type="text" list="comuni" name="arrivo" required></input>
 				<!--  <input type="date" class="search-field date-time-box"></input> -->
 				<input type="time" class="search-field hour-time-box"></input>
 				

@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-           		     <a class="nav-link"><% if(session.getAttribute("username")!=null){ out.println(session.getAttribute("username"));} %></a>&nbsp;
+           		     <a class="nav-link" style="color:white"><% if(session.getAttribute("username")!=null){ out.println(session.getAttribute("username"));} %></a>&nbsp;
                     <a class="nav-link" href="auth/login.html"><img src="assets/img/user.png" width="40px"></a>
                 </div>
             </div>
