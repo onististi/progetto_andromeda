@@ -17,7 +17,7 @@ public class TicketBean {
 		this.coordinata2= 0;
 	}
 	
-	public TicketBean creamento(int id_p, String nome_l, String comu, String nom, String coordinata, String ora, int rita) {
+	public TicketBean (int id_p, String nome_l, String comu, String nom, String coordinata, String ora, int rita) {
 		this.setId_percorso(id_p);
 		this.setNome_linea(nome_l);
 		
@@ -29,7 +29,6 @@ public class TicketBean {
 		
 		this.setCoordinate(coordinata);
 		
-		return this;
 	}
 	
 	public void setCoordinate(String coordinata) {

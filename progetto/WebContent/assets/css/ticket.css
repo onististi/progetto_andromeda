@@ -4,7 +4,8 @@
         box-sizing: border-box;
     }
 html{
-	background: repeating-linear-gradient(#ff7979, #070D1F,  #ff7979 100vh, #070D1F 100vh);
+	
+	background: repeating-linear-gradient(#ff7979, #070D1F,  #ff7979 100vh, #070D1F 100vh)
 }
     img {
         vertical-align: middle;
@@ -141,22 +142,6 @@ html{
          left: 250px;
       }
 
-      /* .cost {
-         position: absolute;
-         font-weight: bold;
-         font-size: 22px;
-         color: #112f88;
-         right: 10px;
-      }
-
-      .total {
-         position: absolute;
-         top: 26px;
-         right: 10px;
-         font-size: 16px;
-         color: #1f1f1f;
-      } */
-
       .cambi {
          position: absolute;
          bottom: 5px;
@@ -173,29 +158,7 @@ html{
       .cambi:hover {
          background-color: #c74d4d;
       }
-
-      /* .cambi {
-         margin-left: 5px;
-         background-color: #ff7979;
-         border: none;
-         border-radius: 10px;
-         font-weight: bold;
-         display: inline-block;
-      } */
-
-      /* .dropdown {
-         position: absolute;
-         font-size: 16px;
-         font-family: Poppins, sans-serif;
-         font-style: normal;
-         bottom: 20px;
-         left: 10px;
-         background-color: #ff7979;
-         border: none;
-         border-radius: .25rem;
-         color: #1f1f1f;
-      } */
-
+      
       .ticket-cambi {
          position: relative;
          top: 200px;

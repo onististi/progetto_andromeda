@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<%@page import="beans.TicketBean"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashMap"%>
 <html lang="it" dir="ltr">
 
 <head>
@@ -7,8 +10,8 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
-   <link rel="stylesheet" href="../assets/css/ticket.css" >
-   <link rel="stylesheet" href="../assets/css/navbar.css" >
+   <link rel="stylesheet" href="assets/css/ticket.css" >
+   <link rel="stylesheet" href="assets/css/navbar.css" >
    <style>
    
    li ul {
@@ -24,23 +27,29 @@ li.open > ul, li.open > div {
 <body>
    <header id="navbar_header">
 	</header>
-
+<body>
 	<script>
-		$("#navbar_header").load('../components/navbar-home.jsp');
+		$("#navbar_header").load('components/navbar-ticket.jsp');
 	</script>
 
 <main>
-   <div class="column" >
-   
-   <div class="ticket">
-      <img class="company-logo" src="../assets/img/logo_vcotrasporti.png" width="100px">
-      <p class="company-name">VCO Trasporti</p>
+<div class="column" >
+<%HashMap tickets = (HashMap)request.getAttribute("tickets"); %>
 
-      <div class="description">
-         <p class="times" id="time_departure">7:33</p>
-         <p class="luoghi" id="partenza">Cannobio</p>
+<%
+TicketBean biglietto = new TicketBean();
 
-         <div class="divisor">
+//for(int i =0; i<tickets.size()-1;i+=2){ %>
+<% //biglietto = (TicketBean)tickets.get(i); System.out.println(biglietto.getNome());%>
+	
+      <div class="ticket">
+      	<img class="company-logo" src="assets/img/logo_vcotrasporti.png" width="100px">
+      		<p class="company-name">VCO Trasporti</p>
+				<div class="description">
+        		 <p class="times" id="time_departure"><%=biglietto.getOrario() %></p>
+         		 <p class="luoghi" id="partenza"><%=biglietto.getComune() %></p>
+         		 
+         		 <div class="divisor">
             <hr class="separator" id="separator_left" noshade>
             <p class="duration">32m</p>
             <hr class="separator" id="separator_right" noshade>
@@ -50,14 +59,16 @@ li.open > ul, li.open > div {
          <p class="luoghi" id="arrivo">Intra</p>
       </div>
 
-      <button class="cambi" onclick="showCambi(0)">0 cambi<img class="arrow" src="../assets/img/kdown.png"
+      <button class="cambi" onclick="showCambi(0)">0 cambi<img class="arrow" src="assets/img/kdown.png"
             width="25px"></button>
       <div class="ticket-cambi">
       </div>
    </div>
+	
+<%//}%>
    
       <div class="ticket">
-      <img class="company-logo" src="../assets/img/logo_vcotrasporti.png" width="100px">
+      <img class="company-logo" src="assets/img/logo_vcotrasporti.png" width="100px">
       <p class="company-name">VCO Trasporti</p>
 
       <div class="description">
@@ -74,7 +85,7 @@ li.open > ul, li.open > div {
          <p class="luoghi" id="arrivo">Intra</p>
       </div>
 
-      <button class="cambi" onclick="showCambi(0)">0 cambi<img class="arrow" src="../assets/img/kdown.png"
+      <button class="cambi" onclick="showCambi(0)">0 cambi<img class="arrow" src="assets/img/kdown.png"
             width="25px"></button>
       <div class="ticket-cambi">
       </div>
@@ -89,7 +100,7 @@ li.open > ul, li.open > div {
 <div class="div1 div2"></div>
 
 	<script>
-		$("#footer").load('../components/footer.html');
+		$("#footer").load('components/footer.html');
 	</script>
 
    <script>
@@ -113,7 +124,7 @@ li.open > ul, li.open > div {
             listTicket[index].style.borderBottomLeftRadius = "0px";
             listTicket[index].style.borderBottomRightRadius = "0px";
 
-            arrows[index].src = "../assets/img/kup.png";
+            arrows[index].src = "assets/img/kup.png";
 
             list[index].innerHTML += "<div class='card-fermate' ><div class='description-travel'><p class='times' id='time_departure'>7:33</p><p class='luoghi' id='partenza'>Cannobio</p><div class='divisor'><hr class='separator' id='separator_left' noshade><p class='duration'>32m</p><hr class='separator' id='separator_right' noshade></div><p class='times' id='time_arrival'>8:05</p><p class='luoghi' id='arrivo'>Intra</p></div></div>";
             list[index + 1].style.marginTop = "170px";
@@ -121,11 +132,8 @@ li.open > ul, li.open > div {
          }
          else {
             showed = false;
-            listTicket[index].style.borderBottomLeftRadius = "10px";
-            listTicket[index].style.borderBottomRightRadius = "10px";
 
-            arrows[index].src = "../assets/img/kdown.png";
-
+            arrows[index].src = "assets/img/kdown.png";
             list[index].innerHTML = "";
             list[index + 1].style.marginTop = "20px";
          }

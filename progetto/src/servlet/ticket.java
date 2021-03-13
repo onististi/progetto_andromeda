@@ -35,14 +35,20 @@ public class ticket extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ServletContext sc = request.getSession().getServletContext();
+		
 		TicketClass ticket = new TicketClass( request.getParameter("partenza"), request.getParameter("arrivo"), request.getParameter("ora"), request.getParameter("giorno"));
 		
 		try {			
 
 	        HttpSession session = request.getSession();
-	  	    session.setAttribute("tickets", ticket.creaTickets());
-	  	    response.sendRedirect("pages/ticket.jsp");
+	  	   // session.setAttribute("tickets", ticket.creaTickets());
+	  	    //response.sendRedirect("pages/ticket.jsp");
 			
+	  	    
+	  	  request.setAttribute("tickets", ticket.creaTickets());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/ticket.jsp");
+			dispatcher.forward(request, response);
+	  	    
 	    } catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}		
 	}		
 
