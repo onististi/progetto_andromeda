@@ -4,6 +4,8 @@ public class TicketBean {
 
 	private int id_percorso;
 	private String nome_linea;
+	private String nome_compagnia;
+	
 	private String comune;
 	private String nome;
 	private float coordinata1;
@@ -17,22 +19,27 @@ public class TicketBean {
 		this.coordinata2= 0;
 	}
 	
-	public TicketBean (int id_p, String nome_l, String comu, String nom, String coordinata, String ora, int rita) {
+	public TicketBean (int id_p, String nome_l, String comu, String nom, String coordinata, String ora, int rita,String compagnia) {
 		this.setId_percorso(id_p);
 		this.setNome_linea(nome_l);
-		
 		this.setNome(nom);
 		this.setComune(comu);
 		this.setOrario(ora);
-		this.setOrario(ora);
 		this.setRitardo(rita);
-		
+		this.setNome_compagnia(compagnia);
 		this.setCoordinate(coordinata);
 		
 	}
 	
 	public void setCoordinate(String coordinata) {
-		
+		setCoordinata1(Float.parseFloat(coordinata.split(",")[0]));
+		setCoordinata2(Float.parseFloat(coordinata.split(",")[1]));
+	}
+	
+	public String getOrarioR() {
+		String o = this.orario;
+		o = o.substring(0, o.length() - 3);	
+		return o;
 	}
 	
 	public int getId_percorso() {
@@ -71,9 +78,10 @@ public class TicketBean {
 	public void setCoordinata2(float coordinata2) {
 		this.coordinata2 = coordinata2;
 	}
-	public String getOrario() {
-		return orario;
-	}
+	
+	 public String getOrario() {
+		 return this.orario;
+	 }
 	public void setOrario(String orario) {
 		this.orario = orario;
 	}
@@ -82,5 +90,13 @@ public class TicketBean {
 	}
 	public void setRitardo(int ritardo) {
 		this.ritardo = ritardo;
+	}
+	
+	public String getNome_compagnia() {
+		return nome_compagnia;
+	}
+
+	public void setNome_compagnia(String nome_compagnia) {
+		this.nome_compagnia = nome_compagnia;
 	}
 }

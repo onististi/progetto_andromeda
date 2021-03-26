@@ -1,194 +1,232 @@
-  *,
-    ::after,
-    ::before {
-        box-sizing: border-box;
-    }
-html{
-	
-	background: repeating-linear-gradient(#ff7979, #070D1F,  #ff7979 100vh, #070D1F 100vh)
+*,::after,
+::before {
+   box-sizing: border-box;
 }
-    img {
-        vertical-align: middle;
-        border-style: none;
-        max-width: 90%;
-        height: auto;
-    }
 
-  main{
-  flex-grow:1;
-  flex-shrink:0;
-  flex-basis:auto;
-  display:block;
-  }
-  
-  body {
-  height:100%;
-         margin:0px;
-         display:flex;
-         padding: 0px;
-         flex-direction:column;
-      }
+html {
+   background: repeating-linear-gradient(#070D1F, #ff7979 100vh, #ff7979 100vh, #070D1F 200vh);
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+}
 
-      .ticket {
-         height: 200px;
-         width: 310px;
-         background: #f1f1f1;
-         margin-top: 20px;
-         /* padding: 80px 40px; */
-         border-radius: 10px;
-         position: relative;
-         transform: translate(120%, 40%);
-         z-index: 10;
-      }
+img {
+   vertical-align: middle;
+   border-style: none;
+   max-width: 90%;
+   height: auto;
+}
 
-      .column {
-         float: left;
-         width: 50%;
-       }
-       
-       /* Clear floats after the columns */
-       .row:after {
-         content: "";
-         display: table;
-         clear: both;
-       }
+main {
+   flex-grow: 1;
+   flex-shrink: 0;
+   flex-basis: auto;
+   display: block;
+}
 
-      .map{
-      width: 600px;
-      margin-bottom: 20%;
-      height: 700px;
-      margin-top:10%;
-      
-      }
+invisble {
+   visibility: hidden;
+   position: absolute;
+   top: -9999px;
+}
 
-      .company-logo {
-         position: absolute;
-         top: 10px;
-         left: 10px;
-      }
+body {
+   margin: 0px;
+   display: flex;
+   padding: 0px;
+   flex-direction: column;
+}
 
-      .company-name {
-         position: absolute;
-         top: 24px;
-         left: 12px;
-         font-size: 12px;
-         color: #5d5d5d;
-      }
+.ticket {
+   height: 200px;
+   width: 400px;
+   background: #f1f1f1;
+   margin-top: 20px;
+   /* padding: 80px 40px; */
+   border-radius: 10px;
+   position: relative;
+   transform: translate(120%, 40%);
+   z-index: 10;
+}
 
-      .description {
-         position: absolute;
-         height: 100px;
-         width: 580px;
-         top: 55px;
-         left: 0px;
-      }
 
-      .times {
-         position: absolute;
-         font-weight: bold;
-         font-size: 22px;
-         color: #112f88;
-      }
+.fermata {
+   font-size: 16px;
+   color: rgg(31, 31, 31);
+   position: relative;
+   left: 30px;
+}
 
-      #time_departure {
-         left: 10px;
-      }
+.carta{
+   
+   font-size:22px;
+   background-color:rgb(241,241,241);
+}
 
-      .divisor {
-         position: absolute;
-         color: #5d5d5d;
-         font-size: 15px;
-         top: 12px;
-         left: 50px;
-         width: 200px;
-      }
+.ticket-cambi{
+   background-color:rgb(241,241,241);
+   border-bottom-right-radius: 10px;
+  /* border-left: 6px dotted #444;*/
+   border-bottom-left-radius: 10px;
+}
 
-      .separator {
-         position: absolute;
-         height: 1px;
-         top: 18px;
-         width: 25px;
-      }
+.tempo{
+   position: absolute;
+   left:250px;
+   font-weight: bold;
+   font-size: 22px;
+   color: #112f88;
+}
 
-      #separator_left {
-         left: 25%;
-      }
+.column {
+   float: left;
+   width: 50%;
+}
 
-      .duration {
-         text-align: center;
-         vertical-align: middle;
-      }
+/* Clear floats after the columns */
+.row:after {
+   content: "";
+   display: table;
+   clear: both;
+}
 
-      #separator_right {
-         right: 25%;
-      }
+.map {
+   width: 600px;
+   margin-bottom: 20%;
+   height: 700px;
+   margin-top: 10%;
 
-      #time_arrival {
-         left: 250px;
-      }
+}
 
-      .luoghi {
-         position: absolute;
-         top: 26px;
-         font-size: 16px;
-         color: #1f1f1f;
-      }
+.company-logo {
+   position: absolute;
+   top: 10px;
+   left: 10px;
+}
 
-      #partenza {
-         left: 10px;
-      }
+.company-name {
+   position: absolute;
+   top: 24px;
+   left: 12px;
+   font-size: 12px;
+   color: #5d5d5d;
+}
 
-      #arrivo {
-         left: 250px;
-      }
+.description {
+   align-items: center;
+   text-align: center;
+   position: absolute;
+   height: 100px;
+   width: 580px;
+   top: 55px;
+   left: 0px;
+}
 
-      .cambi {
-         position: absolute;
-         bottom: 5px;
-         left: 5px;
-         margin-left: 5px;
-         background-color: #e96767;
-         border: none;
-         outline: none;
-         border-radius: 10px;
-         font-weight: bold;
-         display: inline-block;
-      }
+.times {
+   position: absolute;
+   font-weight: bold;
+   font-size: 22px;
+   color: #112f88;
+}
 
-      .cambi:hover {
-         background-color: #c74d4d;
-      }
-      
-      .ticket-cambi {
-         position: relative;
-         top: 200px;
-      }
+#time_departure {
+   left: 10px;
+}
 
-      .dropdown-content {
-         display: none;
-         position: relative;
-         /*background-color: #f9f9f9;
-         min-width: 160px; */
-         /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
-         /* padding: 12px 16px;*/
-      }
+.divisor {
+   position: absolute;
+   color: #5d5d5d;
+   font-size: 15px;
+   top: 12px;
+   left: 50px;
+   width: 200px;
+}
 
-    
-      .card-fermate {
-         height: 100px;
-         width: 310px;
-         background: #f1f1f1;
-         border-bottom-left-radius: 5px;
-         border-bottom-right-radius: 5px;
-         position: relative;
-         z-index: 20;
-         /* transform: translate(-50%, -50%); */
-      }
+.separator {
+   position: absolute;
+   height: 1px;
+   top: 18px;
+   width: 25px;
+}
 
-      .description-travel {
-         position: absolute;
-         height: 100px;
-         width: 580px;
-         top: 10px;
-         left: 0px;
-      }
+#separator_left {
+   left: 25%;
+}
+
+.duration {
+   text-align: center;
+   vertical-align: middle;
+}
+
+#separator_right {
+   right: 25%;
+}
+
+#time_arrival {
+   left: 240px;
+}
+
+.luoghi {
+   position: absolute;
+   top: 26px;
+   font-size: 16px;
+   color: #1f1f1f;
+}
+
+#partenza {
+   left: 10px;
+}
+
+#arrivo {
+   left: 240px;
+}
+
+.cambi {
+   position: absolute;
+   bottom: 5px;
+   left: 5px;
+   margin-left: 5px;
+   background-color: #e96767;
+   border: none;
+   outline: none;
+   border-radius: 10px;
+   font-weight: bold;
+   display: inline-block;
+}
+
+.cambi:hover {
+   background-color: #c74d4d;
+}
+
+.ticket-cambi {
+   position: relative;
+   top: 200px;
+}
+
+.dropdown-content {
+   display: none;
+   position: relative;
+   /*background-color: #f9f9f9;
+      min-width: 160px; */
+   /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
+   /* padding: 12px 16px;*/
+}
+
+
+.card-fermate {
+   height: 100px;
+   width: 400px;
+   background: #f1f1f1;
+   border-bottom-left-radius: 5px;
+   border-bottom-right-radius: 5px;
+   position: relative;
+   z-index: 20;
+   /* transform: translate(-50%, -50%); */
+}
+
+.description-travel {
+   position: absolute;
+   height: 100px;
+   width: 580px;
+   top: 10px;
+   left: 0px;
+}

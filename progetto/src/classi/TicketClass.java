@@ -16,7 +16,6 @@ public class TicketClass {
 	private String sql;
 	private int andata =0;
 	public ResultSet rs;
-	public ResultSet rsA;
 	public String partenza;
 	public String arrivo;
 	public String ora;
@@ -27,20 +26,20 @@ public class TicketClass {
 	public TicketClass(String p, String a, String o, String g) {
 		this.partenza = p;
 		this.arrivo = a;
-		this.ora = "12:00";
+		this.ora = "12:33";
 		this.giorno = g;
 		this.tickets = new ArrayList<TicketBean>();
 		this.spezzato = new HashMap<Integer,ArrayList<TicketBean>>();
 	}
-	
 	
 	public int getAndata() {return this.andata;}
 	public void setAndata(int n) {this.andata=n;}
 	public void setSql(boolean a) {
 		
 		if(!a)
-			this.sql = "SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo FROM percorso "
+			this.sql = "SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo, linea.nome_compagnia FROM percorso "
 					+ "INNER JOIN direzione on direzione.id = percorso.id_direzione "
+					+ "INNER JOIN linea on linea.id = direzione.id_linea "
 					+ "INNER JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
 					+ "INNER JOIN fermata F on F.id = fermata_percorso.id_fermata "
 					+ "WHERE fermata_percorso.andata = 0 "
@@ -56,8 +55,9 @@ public class TicketClass {
 					+ "    	WHERE fermata.comune = '" +this.arrivo +"' AND fermata_percorso.orario > '"+this.ora+"')"
 					+ "ORDER BY percorso.id, fermata_percorso.orario";
 		else
-			this.sql = "SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo FROM percorso "
+			this.sql = "SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo, linea.nome_compagnia FROM percorso "
 					+ "INNER JOIN direzione on direzione.id = percorso.id_direzione "
+					+ "INNER JOIN linea on linea.id = direzione.id_linea "
 					+ "INNER JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
 					+ "INNER JOIN fermata F on F.id = fermata_percorso.id_fermata "
 					+ "WHERE fermata_percorso.andata = 1 "
@@ -76,11 +76,31 @@ public class TicketClass {
 		//System.out.println(this.sql);
 	}
 	
+	public boolean query(boolean r) throws ClassNotFoundException {
+		try {
+			System.out.println(this.partenza+this.arrivo);
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22");
+		   Statement stmt = con.createStatement();
+		   this.rs = stmt.executeQuery(this.sql);  
+		  
+		   if(!this.rs.next())
+			   return false;
+		   else 						 //qui ce la prima fermata
+			   rs.previous();
+		   
+		   return true;
+		} catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}	
+		return true;
+    }
+	
 	public HashMap<Integer,ArrayList<TicketBean>> creaTickets() throws SQLException, ClassNotFoundException {
 		
 		setSql(false);	//false sta per andata= 0
 		if(query(false)) {  
-	    this.andata = controlla_andata(this.rsA);
+	    this.andata = controlla_andata(this.rs);
+	    
+	    this.rs.beforeFirst();
 	 		System.out.println("andata "+andata); 	
 		
 	 	if(this.andata == 0) 
@@ -96,9 +116,9 @@ public class TicketClass {
 	 	dividiTickets();
 	 	stampaS();
 	 	return this.spezzato;
-		}else {
+	 	
+		}else 
 			return this.spezzato;
-		}
 	}
 	
 	
@@ -106,20 +126,67 @@ public class TicketClass {
 	
 		for(int i=0;i<this.tickets.size();i++) {
 			
-			if(this.tickets.get(i).getId_percorso()!= this.tickets.get(i).getId_percorso()) 
+			if(this.tickets.get(i).getId_percorso()!= this.tickets.get(i).getId_percorso()) { //nuovo biglietto
+				System.out.println("entrato nel primo dividi ticket "+this.tickets.get(i).getId_percorso());
 				spezzato.put(this.tickets.get(i).getId_percorso(),new ArrayList<TicketBean>(Arrays.asList(tickets.get(i))));
-				
-			else if(spezzato.containsKey(this.tickets.get(i).getId_percorso())){
+			}
+			else if(spezzato.containsKey(this.tickets.get(i).getId_percorso())){ //biglietto contenuto
 				
 				ArrayList<TicketBean> campo = spezzato.get(this.tickets.get(i).getId_percorso());
 				campo.add(tickets.get(i));
 				spezzato.put(this.tickets.get(i).getId_percorso(),campo);
 				
-			}else 		
+			}else { //primo biglietto
 				spezzato.put(this.tickets.get(i).getId_percorso(),new ArrayList<TicketBean>(Arrays.asList(tickets.get(i))));
-				
+				System.out.println("entrato nel terzo dividi ticket "+this.tickets.get(i).getId_percorso());
+			}
 		}
+		System.out.println("---------------------------");
 	}
+	
+	
+	public int controlla_andata(ResultSet rs) throws SQLException {
+        while(rs.next())  
+        	if(rs.getString("comune").equals(this.partenza)) 
+        		return 0;
+        	else if(rs.getString("comune").equals(this.arrivo))
+        		return 1;
+        
+		return 0;
+	}
+	
+	 
+	public void creaBean() throws SQLException { //
+    boolean p = false; 
+    boolean a = false;
+    
+    try {
+    	rs.previous(); //bug fixato trovato qui (saltava la prima fermata quindi anche il primo biglietto) ma non si sa cosa gli faceva fare il next() prima
+    	
+     while(rs.next()) {
+     	System.out.println("rs: "+rs.getString("comune")+" "+rs.getString("nome")+" "+rs.getString("orario")+" "+rs.getString("percorso_id"));
+     	
+     	if(a && rs.getString("comune").equals(this.arrivo))   //per fare prendere dalla prima fermata alla ultima fermata conn comune = Partenza || Arrivo
+     		a=false;
+     	
+     	if(rs.getString("comune").equals(this.partenza)) {
+     		p = true;
+     		a= false;
+     	}
+     	
+     	if(p && !a) {
+     	TicketBean t = new TicketBean(rs.getInt("percorso_id"), rs.getString("nome_linea"), rs.getString("comune"), rs.getString("nome"), rs.getString("coordinate"), rs.getString("orario"), rs.getInt("ritardo"),rs.getString("nome_compagnia"));
+     	 this.tickets.add(t);
+     	//System.out.println("creabean(): "+tickets.get(tickets.size()-1).getComune()+" "+tickets.get(tickets.size()-1).getOrario()+" "+tickets.get(tickets.size()-1).getNome()+ " "+tickets.get(tickets.size()-1).getId_percorso());
+     	}
+     	
+     	if(rs.getString("comune").equals(this.arrivo))
+     		a = true;
+     }
+    
+    	}catch(SQLException e) {printSQLException(e);}		
+	}
+	
 	
 	public void stampaS() {
 		for (Map.Entry<Integer,ArrayList<TicketBean>> me : this.spezzato.entrySet()) {
@@ -133,73 +200,8 @@ public class TicketClass {
 	        }
 	}
 	
-	public int controlla_andata(ResultSet rsA) throws SQLException {
-        while(rsA.next()) 
-        	if(rsA.getString("comune").equals(this.partenza)) 
-        		return 0;
-        	else if(rsA.getString("comune").equals(this.arrivo))
-        		return 1;
-        
-		return 0;
-	}
-	
-	
-	public boolean query(boolean r) throws ClassNotFoundException {
-		try {
-			System.out.println(this.partenza+this.arrivo);
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22");
-		   Statement stmt = con.createStatement();
-		   this.rs = stmt.executeQuery(this.sql);
-		   
-		  
-		   if(!this.rs.next()){
-			   return false;
-		   }else
-			   rs.previous();
-		   
-		   if(!r) //se è la prima volta che entra ovvero quando la chiama subito in creaBiglietto
-			   this.rsA = rs;   
-		   return true;
-		} catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}	
-		return true;
-    }
-	
-	 
-	public void creaBean() throws SQLException {
-    boolean p = false; 
-    boolean a = false;
-    boolean c = false;
-    
-    try {
-    	
-     while(rs.next()) {
-     	System.out.println("rs: "+rs.getString("comune")+" "+rs.getString("nome")+" "+rs.getString("percorso_id"));
-     	if(c && !rs.getString("comune").equals(this.arrivo)) {
-     		p=false;	 //variabili per far prendere dalla query risultante(rs) solo da quando trova la prima fermata delle due all arrivo finale(quindi anche se ripetuto perche è per comuni)
-			a=true;
-			c=false;
-     	}
-     	
-     	if(rs.getString("comune").equals(this.partenza)) {
-     		p = true;
-     		a= false;
-     	}
-     	
-     	if(p && !a) {
-     	TicketBean t = new TicketBean(rs.getInt("percorso_id"), rs.getString("nome_linea"), rs.getString("comune"), rs.getString("nome"), rs.getString("coordinate"), rs.getString("orario"), rs.getInt("ritardo"));
-     	 this.tickets.add(t);
-     	System.out.println("creabean(): "+tickets.get(tickets.size()-1).getComune()+" "+tickets.get(tickets.size()-1).getOrario()+" "+tickets.get(tickets.size()-1).getNome()+ " "+tickets.get(tickets.size()-1).getId_percorso());
-     	}
-     	
-     	if(rs.getString("comune").equals(this.arrivo))
-     		c = true;
-     }
-    
-    	}catch(SQLException e) {printSQLException(e);}		
-	}
-	
 	public void stampabean() {
+		System.out.println("-----------------------------------");
 		for(int i=0;i<this.tickets.size();i++) {
 			System.out.println("stampabean(): "+this.tickets.get(i).getNome()+" "+this.tickets.get(i).getId_percorso());
 		}

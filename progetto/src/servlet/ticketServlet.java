@@ -18,17 +18,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.ArrayList;
 import classi.TicketClass;
-import classi.Cript;
 import beans.TicketBean;
 
 @WebServlet("/ticket")
-public class ticket extends HttpServlet {
+public class ticketServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public ticket() {
+    public ticketServlet() {
         super();
     }
 
@@ -49,7 +46,8 @@ public class ticket extends HttpServlet {
 	  	    if(tickets.isEmpty())
 	  	    	response.sendRedirect("pages/home.jsp?e=1");
 	  	    else {
-		  	    request.setAttribute("tickets", tickets);
+			    session.setAttribute("tickets",tickets);
+			    //response.sendRedirect("pages/ticket.jsp");
 				RequestDispatcher dispatcher = request.getRequestDispatcher("pages/ticket.jsp");
 				dispatcher.forward(request, response);
 	  	    }
