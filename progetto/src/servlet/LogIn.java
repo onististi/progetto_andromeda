@@ -35,11 +35,12 @@ public class LogIn extends HttpServlet {
 		
 		UtenteClass controller = new UtenteClass();
 		try {
-			
-			if(controller.log(utente)==0) {
+			int id = controller.log(utente);
+			if(id!=0) {
 				HttpSession session = request.getSession();
 		  	    session.setAttribute("username", utente.getUsername());
-				response.sendRedirect("pages/home.jsp");
+		  	    session.setAttribute("id_utente", id);
+				response.sendRedirect("ticket?h");
 			}else
 				response.sendRedirect("auth/login.html?e=1");
 				

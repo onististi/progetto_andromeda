@@ -14,6 +14,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,12 +31,15 @@ public class ticketServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getParameter("h")!=null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/home.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ServletContext sc = request.getSession().getServletContext();
-		
 		TicketClass ticket = new TicketClass( request.getParameter("partenza"), request.getParameter("arrivo"), request.getParameter("ora"), request.getParameter("giorno"));
 		
 		try {			
@@ -44,10 +48,20 @@ public class ticketServlet extends HttpServlet {
 	        HashMap<Integer,ArrayList<TicketBean>> tickets = ticket.creaTickets();
 	        
 	  	    if(tickets.isEmpty())
-	  	    	response.sendRedirect("pages/home.jsp?e=1");
+	  	    	response.sendRedirect("ticket?h&e=1");
 	  	    else {
+	  	    	session.setAttribute("tickets", null);
 			    session.setAttribute("tickets",tickets);
 			    //response.sendRedirect("pages/ticket.jsp");
+			   // Cookie cookie = new Cookie("partenza", request.getParameter("partenza"));
+			    
+			    //Cookie cookie2 = new Cookie("arrivo", request.getParameter("arrivo"));
+			    
+			    System.out.println("c: "+request.getParameter("partenza")+ " "+ request.getParameter("arrivo"));
+			  //  response.addCookie(cookie);
+			    //response.addCookie(cookie2);
+			    request.setAttribute("partenza", request.getParameter("partenza"));
+			    request.setAttribute("arrivo", request.getParameter("arrivo"));
 				RequestDispatcher dispatcher = request.getRequestDispatcher("pages/ticket.jsp");
 				dispatcher.forward(request, response);
 	  	    }

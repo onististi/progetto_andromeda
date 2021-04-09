@@ -68,7 +68,7 @@ img {
 
 /*===== HEADER =====*/
 .header {
-	z-index:99999999;
+  z-index:99999990;
   width: 100%;
   height: var(--header-height);
   position: fixed;

@@ -10,12 +10,9 @@ public class UtenteClass {
 
 	public int registrazione(UtenteBean utente) throws ClassNotFoundException, SQLException {
 		int result = 0;
-		Cript criptante = new Cript();
 		
 		String sql="INSERT INTO utente (username, password) VALUES (?, ?)";
 		Class.forName("com.mysql.jdbc.Driver");
-		
-		
 		
 		try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/androme", "aro", "cavolo22")){
 			
@@ -49,13 +46,13 @@ public class UtenteClass {
 	        
 	        if(decriptata.equals(password)) {
 	        	System.out.println("login corretto");
-	        	return 0;
+	        	return rs.getInt("id");
 	        }else{
 	        	System.out.println("login errato");
-	        	return 1;
+	        	return 0;
 	        }
 	    } catch(SQLException e) {printSQLException(e);}	  
-		return 1;
+		return 0;
 	}
 	
 	

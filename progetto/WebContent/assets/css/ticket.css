@@ -23,10 +23,61 @@ main {
    display: block;
 }
 
+.riquadro{
+  position: fixed;
+  top: 20%;
+  bottom: 20%;
+  width: 300px;
+  text-align:center;
+  color:white;
+  background-color: #070D1F;
+  border -top-right-radius: 10px;
+  overflow-y: scroll;
+}
+
+.orar{
+   font-weight: bold;
+   font-size: 20px;
+   color: #112f88;
+  }
+
 invisble {
    visibility: hidden;
    position: absolute;
    top: -9999px;
+}
+
+.notify{  
+  font-size: inherit;
+  font-family:'Poppins', sans-serif;
+  position:absolute;
+  z-index:99999999;
+  top:0px;
+  width:100%;
+  height:0;  
+  box-sizing:border-box;
+  color:white;  
+  text-align:center;
+  background:rgba(0,0,0,.6);
+  overflow:hidden;
+  box-sizing:border-box;
+  transition:height .2s;
+}
+
+#notifyType:before{
+	z-index:99999990;
+  display:block;
+  margin-top:15px; 
+  
+}
+
+.notificaAttiva{
+	z-index:99999990;
+  height:50px;
+}
+.failure:before{
+	align-items:center;
+	z-index:99999990;
 }
 
 body {
@@ -63,6 +114,8 @@ body {
 }
 
 .ticket-cambi{
+   max-height: 320px;
+
    background-color:rgb(241,241,241);
    border-bottom-right-radius: 10px;
   /* border-left: 6px dotted #444;*/
@@ -90,6 +143,7 @@ body {
 }
 
 .map {
+	position:fixed;
    width: 600px;
    margin-bottom: 20%;
    height: 700px;

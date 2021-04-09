@@ -6,6 +6,8 @@
 <%@page import="java.util.Map.Entry"%>
 <%@page import="com.google.gson.*"%>
 <%@page import="beans.TicketBean"%>
+<%@page import="classi.TicketSalvatiClass"%>
+<%@page import="javax.servlet.http.Cookie"%>
 <html lang="it" dir="ltr">
 <head>
    <meta charset="utf-8">
@@ -19,7 +21,6 @@
    <link rel="stylesheet" href="assets/css/navbar.css" >
    <script src="assets/js/ticket.js"></script>
    <style>
-   
    li ul {
     display: none;
     border-radius: 10px;
@@ -57,14 +58,15 @@
 	<script>
 		$("#navbar_header").load('components/navbar-ticket.jsp');
 	</script>
-
+<a id="stellina"><img id="myImg" src="assets/img/not-favourite.png" style="width:35px; height:35px; margin-top:5%; position:absolute; left:2%;"/></a>
 <main>
+
 <div class="column" >
 <%!HashMap tickets = new HashMap<Integer,ArrayList<TicketBean>>(); %>
 <%!int index=0;%>
 <%tickets = (HashMap)session.getAttribute("tickets");%>
 	
-	<script>var lista = <%=new Gson().toJson(tickets)%></script>
+	<script>var lista = <%=new Gson().toJson(tickets)%>;</script>
 	
 	<% Iterator<Entry<Integer, ArrayList<TicketBean>>> it = tickets.entrySet().iterator();
 	index=0;
@@ -89,12 +91,10 @@
 		         <p class="luoghi" id="arrivo"><%=fermate.get(fermate.size()-1).getComune()%></p>     
     		   </div>
       
-      <button class="cambi" onclick="showCambi(<%=index%>,<%=me.getKey() %>,lista)">0 cambi<img class="arrow" src="assets/img/kdown.png"
+      <button class="cambi" onclick="showCambi(<%=index%>,<%=me.getKey() %>,lista,mymap)">0 cambi<img class="arrow" src="assets/img/kdown.png"
             width="25px"></button><div class="ticket-cambi"></div>
    	</div>
-   
    <%index++;}%>
-
   </div>
 
    <div class="column">
@@ -102,14 +102,59 @@
    </div>
 </main>
 <div class="div1 div2"></div>
-
+<div class="notify"><span id="notifyType" class="notifichina"></span></div>
 	<script>
-		$("#footer").load('components/footer.html');
-    
+
+	<%!TicketSalvatiClass Salva = new TicketSalvatiClass();%>
+	<%!String partenza;%>
+	<%!String arrivo;%>
+	<%
+	partenza = request.getAttribute("partenza").toString();
+	arrivo = request.getAttribute("arrivo").toString();
+	    
+	if(session.getAttribute("username")!=null){
+		boolean check_salva = Salva.check( (int)(session.getAttribute("id_utente")), partenza, arrivo);
+		
+		if(!check_salva){%>
+		
+		var url = "tratte_preferite";
+		$('#stellina').click(function (e){
+
+				$.post(url,{
+				 partenza:'<%=partenza%>',
+				 arrivo:'<%=arrivo%>',
+				 message:'salva'
+			     });
+				
+				document.getElementById("myImg").src = "assets/img/favourite-star.png"
+		   });
+		
+		<%}else{%>
+		document.getElementById("myImg").src = "assets/img/favourite-star.png"
+		$('#stellina').click(function (e){ 
+			
+			var url ="tratte_preferite"
+				$.post(url,{
+					 partenza:"<%=partenza%>",
+					 arrivo:"<%=arrivo%>",
+					 message:'elimina'
+				});
+			
+			document.getElementById("myImg").src = "assets/img/not-favourite.png"
+			setTimeout(function(){ notifica(1)},90);
+		});
+		<%}%>
+	<%}else{%>;
+		
+		$('#stellina').click(function (e){ 
+			setTimeout(function(){ notifica(0)},90);
+		});
+	<%}%>
+		
       var mymap = L.map('mapid').setView([45.94, 8,58], 10);
    
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-         maxZoom: 18,
+         maxZoom: 20,
          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
             '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
             'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -117,27 +162,39 @@
          tileSize: 512,
          zoomOffset: -1
       }).addTo(mymap);
-   
-      L.marker([45.968978, 7.96423]).addTo(mymap)
-         .bindPopup("<b>Macugnaga(VB)</b><br />Macugnaga").openPopup();
-      L.marker([45.94339, 8.58495]).addTo(mymap)
-         .bindPopup("<b>Biganzolo(VB)</b><br />Biganzolo").openPopup();
-      L.circle([45.968978, 7.96423], 500, {
-         color: 'red',
-         fillColor: '#f03',
-         fillOpacity: 0.5
-      }).addTo(mymap).bindPopup("I am a circle.");
-   
-      L.polygon([
-         [45.968978, 7.96423],
-         [45.968978, 7.96423],
-         [45.968978, 7.96423]
-      ]).addTo(mymap).bindPopup("I am a polygon.");
-   
+      
+      var redIcon = new L.Icon({
+    	  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    	  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    	  iconSize: [25, 41],
+    	  iconAnchor: [12, 41],
+    	  popupAnchor: [1, -34],
+    	  shadowSize: [41, 41]
+    	});
    
       var popup = L.popup();
    
       mymap.on('click', onMapClick);
+      
+  	function notifica(tipo){
+		var frase;
+		if(!tipo)
+			 frase = "Devi effettuare il login per poter salvare tratte"
+		else
+			 frase = "Hai eliminato questa tratta"
+			 
+		  $(".notify").addClass("notificaAttiva");
+		  $("#notifyType").addClass("failure");
+		  $(".notifichina").append("<p id='pn' style='color:#ff7979'></p>");
+		  $("#pn").append(frase);
+		  
+		  setTimeout(function(){
+		    $(".notify").removeClass("notificaAttiva");
+		    $("#notifyType").removeClass("failure");
+		  },2000);
+		};
+		
+		$("#footer").load('components/footer.html');
    </script>
 
 </body>

@@ -26,6 +26,10 @@ public class UtenteBean {
 		this.password = password;
 	}
 	
+	public int getID() {
+		return this.id;
+	}
+	
 	public void setPasswordCript(String password) throws Exception{
 		
 		Cript criptante = new Cript();

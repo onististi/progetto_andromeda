@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import beans.TicketBean;
 
 public class TicketClass {
-	
+	public int id_direzione=9991;
 	private String sql;
 	private int andata =0;
 	public ResultSet rs;
@@ -26,7 +26,8 @@ public class TicketClass {
 	public TicketClass(String p, String a, String o, String g) {
 		this.partenza = p;
 		this.arrivo = a;
-		this.ora = "12:33";
+		this.ora = o;
+		System.out.println(o);
 		this.giorno = g;
 		this.tickets = new ArrayList<TicketBean>();
 		this.spezzato = new HashMap<Integer,ArrayList<TicketBean>>();
@@ -37,7 +38,7 @@ public class TicketClass {
 	public void setSql(boolean a) {
 		
 		if(!a)
-			this.sql = "SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo, linea.nome_compagnia FROM percorso "
+			this.sql = "SELECT direzione.id AS id_direzione, percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo, linea.nome_compagnia FROM percorso "
 					+ "INNER JOIN direzione on direzione.id = percorso.id_direzione "
 					+ "INNER JOIN linea on linea.id = direzione.id_linea "
 					+ "INNER JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
@@ -55,7 +56,7 @@ public class TicketClass {
 					+ "    	WHERE fermata.comune = '" +this.arrivo +"' AND fermata_percorso.orario > '"+this.ora+"')"
 					+ "ORDER BY percorso.id, fermata_percorso.orario";
 		else
-			this.sql = "SELECT percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo, linea.nome_compagnia FROM percorso "
+			this.sql = "SELECT direzione.id AS id_direzione, percorso.id AS percorso_id, direzione.nome as nome_Linea, F.comune, F.nome, F.coordinate,fermata_percorso.orario, fermata_percorso.ritardo, linea.nome_compagnia FROM percorso "
 					+ "INNER JOIN direzione on direzione.id = percorso.id_direzione "
 					+ "INNER JOIN linea on linea.id = direzione.id_linea "
 					+ "INNER JOIN fermata_percorso on fermata_percorso.id_percorso = percorso.id "
@@ -99,7 +100,7 @@ public class TicketClass {
 		setSql(false);	//false sta per andata= 0
 		if(query(false)) {  
 	    this.andata = controlla_andata(this.rs);
-	    
+	    //stampaRS();
 	    this.rs.beforeFirst();
 	 		System.out.println("andata "+andata); 	
 		
@@ -123,22 +124,22 @@ public class TicketClass {
 	
 	
 	public void dividiTickets() {
-	
 		for(int i=0;i<this.tickets.size();i++) {
 			
 			if(this.tickets.get(i).getId_percorso()!= this.tickets.get(i).getId_percorso()) { //nuovo biglietto
-				System.out.println("entrato nel primo dividi ticket "+this.tickets.get(i).getId_percorso());
-				spezzato.put(this.tickets.get(i).getId_percorso(),new ArrayList<TicketBean>(Arrays.asList(tickets.get(i))));
+				System.out.println("entrato nel primo dividi ticket "+this.tickets.get(i).getId_percorso()+" "+tickets.get(i).getNome()+" "+tickets.get(i).getComune());
+				this.spezzato.put(this.tickets.get(i).getId_percorso(),new ArrayList<TicketBean>(Arrays.asList(this.tickets.get(i))));
 			}
-			else if(spezzato.containsKey(this.tickets.get(i).getId_percorso())){ //biglietto contenuto
+			else if(this.spezzato.containsKey(this.tickets.get(i).getId_percorso())){ //biglietto contenuto
 				
 				ArrayList<TicketBean> campo = spezzato.get(this.tickets.get(i).getId_percorso());
-				campo.add(tickets.get(i));
-				spezzato.put(this.tickets.get(i).getId_percorso(),campo);
+				campo.add(this.tickets.get(i));
+				//System.out.println("r "+campo.get(campo.size()-1).getComune());
+				this.spezzato.put(this.tickets.get(i).getId_percorso(),campo);
 				
 			}else { //primo biglietto
-				spezzato.put(this.tickets.get(i).getId_percorso(),new ArrayList<TicketBean>(Arrays.asList(tickets.get(i))));
-				System.out.println("entrato nel terzo dividi ticket "+this.tickets.get(i).getId_percorso());
+				this.spezzato.put(this.tickets.get(i).getId_percorso(),new ArrayList<TicketBean>(Arrays.asList(this.tickets.get(i))));
+				System.out.println("entrato nel terzo dividi ticket "+this.tickets.get(i).getId_percorso()+" "+tickets.get(i).getNome()+" "+tickets.get(i).getComune());
 			}
 		}
 		System.out.println("---------------------------");
@@ -146,12 +147,13 @@ public class TicketClass {
 	
 	
 	public int controlla_andata(ResultSet rs) throws SQLException {
-        while(rs.next())  
+        while(rs.next()) {  
+        	System.out.println("eco: "+rs.getString("comune"));
         	if(rs.getString("comune").equals(this.partenza)) 
         		return 0;
         	else if(rs.getString("comune").equals(this.arrivo))
         		return 1;
-        
+        }
 		return 0;
 	}
 	
@@ -161,6 +163,7 @@ public class TicketClass {
     boolean a = false;
     
     try {
+    	
     	rs.previous(); //bug fixato trovato qui (saltava la prima fermata quindi anche il primo biglietto) ma non si sa cosa gli faceva fare il next() prima
     	
      while(rs.next()) {
@@ -183,10 +186,19 @@ public class TicketClass {
      	if(rs.getString("comune").equals(this.arrivo))
      		a = true;
      }
-    
     	}catch(SQLException e) {printSQLException(e);}		
 	}
 	
+	public void stampaRS() throws SQLException {
+		while(this.rs.next()) {
+			try {
+				System.out.println("ll: "+rs.getString("comune"));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public void stampaS() {
 		for (Map.Entry<Integer,ArrayList<TicketBean>> me : this.spezzato.entrySet()) {
@@ -203,7 +215,7 @@ public class TicketClass {
 	public void stampabean() {
 		System.out.println("-----------------------------------");
 		for(int i=0;i<this.tickets.size();i++) {
-			System.out.println("stampabean(): "+this.tickets.get(i).getNome()+" "+this.tickets.get(i).getId_percorso());
+			System.out.println("stampabean(): "+this.tickets.get(i).getComune()+" "+this.tickets.get(i).getNome()+" "+this.tickets.get(i).getId_percorso());
 		}
 		System.out.println("-----------------------------------");
 	}
