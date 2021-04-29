@@ -41,6 +41,7 @@ text-align: center !important;
 }
 
 .fermata{
+	cursor: pointer;
 	font-size:16px;
 	color:#070D1F;
 	margin-top:235px;
@@ -150,7 +151,7 @@ text-align: center !important;
 		           for(i =0;i< Object.keys(responseJson).length;++i){
 		        	   let t = responseJson[i];
 		        	   
-		        	   $('#myDropdown').append("<br><div class='row'><a class='fermata' id='fermata'>&nbsp; "+t[0]+"&nbsp;&nbsp-&nbsp;&nbsp;"+t[1]+" &nbsp;<button type='button' class='cestino' onclick='elimina("+i+")'> "+u+"</button>&nbsp</a></div><br>")
+		        	   $('#myDropdown').append("<br><div class='row'><a class='fermata' id="+i+" onclick='io("+i+")';event.preventDefault();'>&nbsp;"+t[0]+"&nbsp;&nbsp-&nbsp;&nbsp;"+t[1]+"&nbsp;<button type='button' class='cestino' onclick='elimina("+i+")'></a> "+u+"</button>&nbsp</div><br>")
 		        	   
 		           }
 		        });
@@ -165,10 +166,21 @@ text-align: center !important;
 				document.getElementById("partenza").value = document.getElementById("arrivo").value;
 				document.getElementById("arrivo").value = partenza_t;			
 		});
+
 		
-		$(".fermata").click(function (e){
-			console.log("ddasda")
-		});
+		function io(index){
+			let row = document.getElementById(index).text
+			row = row.substring(1,row.length-1 )
+
+			prima = row.split("-")[0]
+			seconda = row.split("-")[1]
+
+			prima = prima.substring(0,prima.length-2)
+			seconda = seconda.substring(2,seconda.length)
+			
+			document.getElementById("partenza").value = prima
+			document.getElementById("arrivo").value = seconda 
+		}
 		
 		$("#non-favorite").click(function (e){
 			setTimeout(function(){ notifica(1)},100);
@@ -178,13 +190,13 @@ text-align: center !important;
 		function elimina(index){
 			
 			let text = document.getElementsByClassName("fermata")[index].text
-			text = text.substring(2,text.length-4)
+			text = text.substring(1,text.length-1)
 			par = text.split("-")[0]
 			arr= text.split("-")[1]
 
 			par=par.substring(0,par.length-2)
 			arr=arr.substring(2,arr.length)
-			
+			console.log(par+arr+"t")
 			var url ="tratte_preferite"
 			$.post(url,{
 				 partenza:par,
@@ -215,4 +227,4 @@ window.onclick = function(event) {
     </c:forEach>
 </datalist>
 
-</html>-
+</html>

@@ -173,8 +173,6 @@
     	});
    
       var popup = L.popup();
-   
-      mymap.on('click', onMapClick);
       
   	function notifica(tipo){
 		var frase;
