@@ -139,7 +139,7 @@ text-align: center !important;
 
 	<script>
 	var i =0;
-		$("#footer").load('components/footer.html');
+		$("#footer").load('components/footerT.html');
 		
 		$('#img_tratte_preferite').click(function(e){
 			 $('#myDropdown').html("")

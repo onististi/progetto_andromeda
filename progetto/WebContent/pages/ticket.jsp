@@ -192,7 +192,7 @@
 		  },2000);
 		};
 		
-		$("#footer").load('components/footer.html');
+		$("#footer").load('components/footerT.html');
    </script>
 
 </body>

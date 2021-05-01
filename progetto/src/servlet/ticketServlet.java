@@ -58,7 +58,7 @@ public class ticketServlet extends HttpServlet {
 			    //Cookie cookie2 = new Cookie("arrivo", request.getParameter("arrivo"));
 			    
 			    System.out.println("c: "+request.getParameter("partenza")+ " "+ request.getParameter("arrivo"));
-			  //  response.addCookie(cookie);
+			     //response.addCookie(cookie);
 			    //response.addCookie(cookie2);
 			    request.setAttribute("partenza", request.getParameter("partenza"));
 			    request.setAttribute("arrivo", request.getParameter("arrivo"));
