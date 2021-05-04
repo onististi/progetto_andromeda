@@ -92,10 +92,11 @@ body {
    width: 400px;
    background: #f1f1f1;
    margin-top: 20px;
+   margin-bottom: 20px;
    /* padding: 80px 40px; */
    border-radius: 10px;
    position: relative;
-   transform: translate(120%, 40%);
+   transform: translate(40%, 40%);
    z-index: 10;
 }
 
@@ -144,10 +145,8 @@ body {
 
 .map {
 	position:fixed;
-   width: 600px;
-   margin-bottom: 20%;
-   height: 700px;
-   margin-top: 10%;
+   width: 38%;
+   height: 100%;
 
 }
 

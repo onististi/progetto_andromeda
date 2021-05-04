@@ -11,33 +11,31 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/flogo16.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="assets/js/home.js">
 	<title>Home</title>
-
+	
 </head>
 
-<style>s
-input[type=time] {
-  width: 90px;
-}
+<style>
+
 
 .tratte_preferite {
-border-radius:5px;
-text-align: center !important;
-  transform: translate(-50%, 95%) !important;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 999999999;
+	border-radius:5px;
+	text-align: center !important;
+  	transform: translate(-50%, 95%) !important;
+  	position: absolute;
+  	background-color: #f1f1f1;
+  	min-width: 160px;
+  	overflow: auto;
+  	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 999999999;
 }
 
 .invisibile{
-  display: none;
+  	display: none;	
 }
 
 .dropdown {
-  position: relative;
-  display: inline-block;
+	  position: relative;
+	  display: inline-block;
 }
 
 .fermata{
@@ -75,9 +73,9 @@ text-align: center !important;
 	function notifica(t){
 		var frase=""	
 		if(t == 0)
-			frase="i due comuni inseriti non hanno tratte in comune"
+			frase="I due comuni inseriti non hanno tratte in comune"
 		else
-			 frase="devi effettuare il login per poter salvare tratte"
+			 frase="Devi effettuare il login per poter salvare tratte"
 		
 		  $(".notify").addClass("notificaAttiva");
 		  $("#notifyType").addClass("failure");
@@ -96,29 +94,50 @@ text-align: center !important;
 		if(url.searchParams.get("e")==1)
 			setTimeout(function(){ notifica(0)},1000);
 	</script>
-	<div class="background">
-		<form action="ticket" method="post">
-			<div class="form-box">
-					
-				<div class="dropdown">
-				<% 
-				if(session.getAttribute("id_utente")!= null){%>
-					<a><img src="assets/img/favourite-star.png" class="dropbtn" id="img_tratte_preferite" style="width:27px; height:27px;"/></a>
-				<%}else{%>
-					<a><img src="assets/img/not-favourite.png" id="non-favorite" style="width:27px; height:27px;"/></a>
-				<%}%>
-					<div id="myDropdown" class="tratte_preferite invisibile"></div>
-				
-				<input class="search-field text-box" placeholder="Comune Partenza" type="text" list="comuni" name="partenza" required id="partenza" ></input>
-				<button type="button" class="switch" id="switch">&rlarr;</button>
-				<input id="arrivo" class="search-field text-box" placeholder="Comune Arrivo" type="text" list="comuni" name="arrivo" required></input>
-				<!--  <input type="date" class="search-field date-time-box"></input> -->
-				<input type="time" name="ora" class="search-field hour-time-box" style="width:100px"></input>
-				
-				<button class="search-field search-btn" type="submit"><img src="assets/img/search.png" alt="Search" width="30px"></button>
+		
+		<div class="search-container">
+			<div class="row">
+				<div class="col-1"></div>
+				<div class="col-2">
+					<form action="ticket" method="post">
+						<div class="form-box">
+							
+							<div>
+								<label class="name">Comune di partenza</label>
+								<input class="search-field text-box" type="text" list="comuni" name="partenza" required id="partenza" ></input>
+								
+								<label class="name">Comune di arrivo</label>
+								<input id="arrivo" class="search-field text-box" type="text" list="comuni" name="arrivo" required></input>
+								
+								
+								<div class="action-row">
+									<div class="dropdown">
+									<% 
+									if(session.getAttribute("id_utente")!= null){%>
+										<a><img src="assets/img/favourite-star.png" class="dropbtn" id="img_tratte_preferite" style="width:27px; height:27px;"/></a>
+									<%}else{%>
+										<a><img src="assets/img/not-favourite.png" id="non-favorite" style="width:27px; height:27px;"/></a>
+									<%}%>
+										<div id="myDropdown" class="tratte_preferite invisibile"></div>
+									</div>
+									<!--  <input type="date" class="search-field date-time-box"></input> -->
+									<input type="time" name="ora" class="search-field hour-time-box" style="width:100px"></input>
+									<button type="button" class="switch" id="switch">&rlarr;</button>
+								</div>
+							</div>
+							
+							<button class="search-field search-btn" type="submit">Cerca</button>
+							
+						</div>
+					</form>
+				</div>
 			</div>
-		</form>
-	</div>
+		</div>
+		
+		
+		
+	
+	<!-- 
 	<center>
 		<div>
 			<h2 class="title">Compagnie supportate</h2>
@@ -131,11 +150,14 @@ text-align: center !important;
 			</div>
 		</div>
 	</center>
+	-->
 
 <div class="notify"><span id="notifyType" class="notifichina"></span></div>
 
+	<!-- 
 	<footer id="footer">
 	</footer>
+	-->
 
 	<script>
 	var i =0;
