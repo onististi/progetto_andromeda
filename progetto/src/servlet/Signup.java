@@ -35,7 +35,7 @@ public class Signup extends HttpServlet {
 		
 		try {
 			utenteC.registrazione(utente);
-			response.sendRedirect("pages/home.jsp");
+			response.sendRedirect("ticket?h");
 		} catch(Exception e) {e.printStackTrace();}
 	}
 }

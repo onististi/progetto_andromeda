@@ -32,7 +32,7 @@ public class ticketServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("h")!=null) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/home.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("ticket?h");
 			dispatcher.forward(request, response);
 		}
 	}
@@ -62,7 +62,7 @@ public class ticketServlet extends HttpServlet {
 			    //response.addCookie(cookie2);
 			    request.setAttribute("partenza", request.getParameter("partenza"));
 			    request.setAttribute("arrivo", request.getParameter("arrivo"));
-				RequestDispatcher dispatcher = request.getRequestDispatcher("pages/ticket.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("ticket?h");
 				dispatcher.forward(request, response);
 	  	    }
 	    } catch(SQLException e) {printSQLException(e);} catch (ClassNotFoundException e) {e.printStackTrace();}		

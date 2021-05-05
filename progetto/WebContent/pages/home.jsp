@@ -26,7 +26,7 @@
   	min-width: 160px;
   	overflow: auto;
   	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 999999999;
+	z-index: 9999999999;
 }
 
 .invisibile{
@@ -124,8 +124,7 @@
 									<input type="time" name="ora" class="search-field hour-time-box" style="width:100px"></input>
 									<button type="button" class="switch" id="switch">&rlarr;</button>
 								</div>
-							</div>
-							
+							</div>				
 							<button class="search-field search-btn" type="submit">Cerca</button>
 							
 						</div>
