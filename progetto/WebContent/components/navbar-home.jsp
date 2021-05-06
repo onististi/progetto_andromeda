@@ -13,7 +13,7 @@
 
 <body>
     <header class="header">
-        <a href="home.php" class="header__logo">PianetaBus</a>
+        <a href="../ticket?h" class="header__logo">PianetaBus</a>
         <ion-icon name="menu-outline" class="header__toggle" id="nav-toggle"></ion-icon>
 
         <nav class="nav" id="nav-menu">
@@ -24,27 +24,26 @@
                 <div class="nav__perfil">
                     <img src="../assets/img/logo-logo.png" style="width: 40px; height: 40px; margin-right: 9%;">
                     <div>
-                        <a href="home.php" class="nav__name">PianetaBus</a>
+                        <a href="../ticket?h" class="nav__name">PianetaBus</a>
                         <span class="nav__profesion">Search Engine</span>
                     </div>
                 </div>
 
                 <div class="nav__menu">
                     <ul class="nav__list">
-                        <li class="nav__item"><a href="home.jsp" class="nav__link">Home</a></li>
-                        <li class="nav__item"><a href="about.html" class="nav__link active">Chi siamo</a></li>
+                        <li class="nav__item"><a href="../ticket?h" class="nav__link active">Home</a></li>
+                        <li class="nav__item"><a href="about.html" class="nav__link">Chi siamo</a></li>
                         <li class="nav__item"><a href="contact.html" class="nav__link">Contattaci</a></li>
                     </ul>
                 </div>
 
-                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-                    <a class="nav-link" href="../auth/login.html"><img src="../assets/img/user.png" width="40px"></a>
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2" >
+           		    <a class="nav-link"><% if(session.getAttribute("username")!=null){ out.println(session.getAttribute("username"));} %></a>
+                    <a href="../auth/login.html"><img src="../assets/img/user.png" width="40px"></a>
                 </div>
             </div>
         </nav>
     </header>
-
-
 
     <!-- ===== IONICONS ===== -->
     <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>

@@ -1,197 +1,285 @@
-@charset "ISO-8859-1";
+*,::after,
+::before {
+   box-sizing: border-box;
+}
+
+html {
+   background: repeating-linear-gradient(#070D1F, #ff7979 100vh, #ff7979 100vh, #070D1F 200vh);
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+}
+
+img {
+   vertical-align: middle;
+   border-style: none;
+   max-width: 90%;
+   height: auto;
+}
+
+main {
+   flex-grow: 1;
+   flex-shrink: 0;
+   flex-basis: auto;
+   display: block;
+}
+
+.riquadro{
+  position: fixed;
+  top: 20%;
+  bottom: 20%;
+  width: 300px;
+  text-align:center;
+  color:white;
+  background-color: #070D1F;
+  border -top-right-radius: 10px;
+  overflow-y: scroll;
+}
+
+.orar{
+   font-weight: bold;
+   font-size: 20px;
+   color: #112f88;
+  }
+
+invisble {
+   visibility: hidden;
+   position: absolute;
+   top: -9999px;
+}
+
+.notify{  
+  font-size: inherit;
+  font-family:'Poppins', sans-serif;
+  position:absolute;
+  z-index:99999999;
+  top:0px;
+  width:100%;
+  height:0;  
+  box-sizing:border-box;
+  color:white;  
+  text-align:center;
+  background:rgba(0,0,0,.6);
+  overflow:hidden;
+  box-sizing:border-box;
+  transition:height .2s;
+}
+
+#notifyType:before{
+	z-index:99999990;
+  display:block;
+  margin-top:15px; 
+  
+}
+
+.notificaAttiva{
+	z-index:99999990;
+  height:50px;
+}
+.failure:before{
+	align-items:center;
+	z-index:99999990;
+}
+
 body {
-         min-height: 100vh;
-         background-image: linear-gradient(120deg, #ff7979, #070D1F);
-      }
+   margin: 0px;
+   display: flex;
+   padding: 0px;
+   flex-direction: column;
+}
 
-      .ticket {
-         height: 180px;
-         width: 500px;
-         background: #f1f1f1;
-         padding: 80px 40px;
-         border-radius: 10px;
-         position: absolute;
-      }
+.ticket {
+   height: 200px;
+   width: 400px;
+   background: #f1f1f1;
+   margin-top: 20px;
+   margin-bottom: 20px;
+   /* padding: 80px 40px; */
+   border-radius: 10px;
+   position: relative;
+   transform: translate(40%, 40%);
+   z-index: 10;
+}
 
-      .company-logo {
-         position: absolute;
-         top: 10px;
-         left: 10px;
-      }
 
-      .company-name {
-         position: absolute;
-         top: 24px;
-         left: 12px;
-         font-size: 12px;
-         color: #5d5d5d;
-      }
+.fermata {
+   font-size: 16px;
+   color: rgg(31, 31, 31);
+   position: relative;
+   left: 30px;
+}
 
-      .description {
-         position: absolute;
-         height: 100px;
-         width: 580px;
-         top: 55px;
-         left: 0px;
-      }
+.carta{
+   
+   font-size:22px;
+   background-color:rgb(241,241,241);
+}
 
-      .times {
-         position: absolute;
-         font-weight: bold;
-         font-size: 22px;
-         color: #112f88;
-      }
+.ticket-cambi{
+   max-height: 320px;
 
-      #time_departure {
-         left: 10px;
-      }
+   background-color:rgb(241,241,241);
+   border-bottom-right-radius: 10px;
+  /* border-left: 6px dotted #444;*/
+   border-bottom-left-radius: 10px;
+}
 
-      .divisor {
-         position: absolute;
-         color: #5d5d5d;
-         font-size: 15px;
-         top: 12px;
-         left: 50px;
-         width: 200px;
-      }
+.tempo{
+   position: absolute;
+   left:250px;
+   font-weight: bold;
+   font-size: 22px;
+   color: #112f88;
+}
 
-      .separator {
-         position: absolute;
-         height: 1px;
-         top: 18px;
-         width: 25px;
-      }
+.column {
+   float: left;
+   width: 50%;
+}
 
-      #separator_left {
-         left: 25%;
-      }
+/* Clear floats after the columns */
+.row:after {
+   content: "";
+   display: table;
+   clear: both;
+}
 
-      .duration {
-         text-align: center;
-         vertical-align: middle;
-      }
+.map {
+	position:fixed;
+   width: 38%;
+   height: 100%;
 
-      #separator_right {
-         right: 25%;
-      }
+}
 
-      #time_arrival {
-         left: 250px;
-      }
+.company-logo {
+   position: absolute;
+   top: 10px;
+   left: 10px;
+}
 
-      .luoghi {
-         position: absolute;
-         top: 26px;
-         font-size: 16px;
-         color: #1f1f1f;
-      }
+.company-name {
+   position: absolute;
+   top: 24px;
+   left: 12px;
+   font-size: 12px;
+   color: #5d5d5d;
+}
 
-      #partenza {
-         left: 10px;
-      }
+.description {
+   align-items: center;
+   text-align: center;
+   position: absolute;
+   height: 100px;
+   width: 580px;
+   top: 55px;
+   left: 0px;
+}
 
-      #arrivo {
-         left: 250px;
-      }
+.times {
+   position: absolute;
+   font-weight: bold;
+   font-size: 22px;
+   color: #112f88;
+}
 
-      .cost {
-         position: absolute;
-         font-weight: bold;
-         font-size: 22px;
-         color: #112f88;
-         right: 10px;
-      }
+#time_departure {
+   left: 10px;
+}
 
-      .total {
-         position: absolute;
-         top: 26px;
-         right: 10px;
-         font-size: 16px;
-         color: #1f1f1f;
-      }
+.divisor {
+   position: absolute;
+   color: #5d5d5d;
+   font-size: 15px;
+   top: 12px;
+   left: 50px;
+   width: 200px;
+}
 
-      .cambi {
-         margin-left: 5px;
-      }
+.separator {
+   position: absolute;
+   height: 1px;
+   top: 18px;
+   width: 25px;
+}
 
-      .dropdown {
-         position: absolute;
-         font-size: 16px;
-         font-family: Poppins, sans-serif;
-         font-style: normal;
-         bottom: 20px;
-         left: 10px;
-         background-color: #ff7979;
-         border: none;
-         border-radius: .25rem;
-         color: #1f1f1f;
-      }
+#separator_left {
+   left: 25%;
+}
 
-      .dropdown-content {
-         display: none;
-         /* position: absolute;
-         background-color: #f9f9f9;
-         min-width: 160px; */
-         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-         /* padding: 12px 16px;
-         z-index: 1; */
-      }
+.duration {
+   text-align: center;
+   vertical-align: middle;
+}
 
-      .dropdown:hover .dropdown-content {
-         display: block;
-         opacity: 0;
-         -webkit-animation: menu1 ease-in-out forwards;
-         animation: menu1 ease-in-out forwards;
-         -webkit-animation-duration: 300ms;
-         animation-duration: 300ms;
-         -webkit-animation-delay: 0ms;
-         animation-delay: 0ms;
-      }
+#separator_right {
+   right: 25%;
+}
 
-      @-webkit-keyframes menu1 {
-         from {
-            opacity: 0;
-            -webkit-transform: rotateX(-180deg);
-            transform: rotateX(-180deg);
-         }
+#time_arrival {
+   left: 240px;
+}
 
-         to {
-            opacity: 1;
-            -webkit-transform: rotateX(0deg);
-            transform: rotateX(0deg);
-         }
-      }
+.luoghi {
+   position: absolute;
+   top: 26px;
+   font-size: 16px;
+   color: #1f1f1f;
+}
 
-      @keyframes menu1 {
-         from {
-            opacity: 0;
-            -webkit-transform: rotateX(-180deg);
-            transform: rotateX(-180deg);
-         }
+#partenza {
+   left: 10px;
+}
 
-         to {
-            opacity: 1;
-            -webkit-transform: rotateX(0deg);
-            transform: rotateX(0deg);
-         }
-      }
+#arrivo {
+   left: 240px;
+}
 
-      .card-fermate {
-         height: 180px;
-         width: 500px;
-         background: #f1f1f1;
-         padding: 80px 40px;
-         border-radius: 10px;
-         position: absolute;
-         left: -10px;
-         top: 20px;
-         /* transform: translate(-50%, -50%); */
-      }
+.cambi {
+   position: absolute;
+   bottom: 5px;
+   left: 5px;
+   margin-left: 5px;
+   background-color: #e96767;
+   border: none;
+   outline: none;
+   border-radius: 10px;
+   font-weight: bold;
+   display: inline-block;
+}
 
-      .description-travel {
-         position: absolute;
-         height: 100px;
-         width: 580px;
-         top: 10px;
-         left: 0px;
-      }
+.cambi:hover {
+   background-color: #c74d4d;
+}
+
+.ticket-cambi {
+   position: relative;
+   top: 200px;
+}
+
+.dropdown-content {
+   display: none;
+   position: relative;
+   /*background-color: #f9f9f9;
+      min-width: 160px; */
+   /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
+   /* padding: 12px 16px;*/
+}
+
+
+.card-fermate {
+   height: 100px;
+   width: 400px;
+   background: #f1f1f1;
+   border-bottom-left-radius: 5px;
+   border-bottom-right-radius: 5px;
+   position: relative;
+   z-index: 20;
+   /* transform: translate(-50%, -50%); */
+}
+
+.description-travel {
+   position: absolute;
+   height: 100px;
+   width: 580px;
+   top: 10px;
+   left: 0px;
+}

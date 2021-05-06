@@ -5,12 +5,55 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="../assets/css/home.css">
+	<link rel="stylesheet" href="assets/css/home.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/img/flogo32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/flogo16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/js/home.js">
 	<title>Home</title>
-
+	
 </head>
 
+<style>
+
+
+.tratte_preferite {
+	border-radius:5px;
+  	position: absolute;
+  	background-color: #f1f1f1;
+  	min-width: 400px;
+  	max-width: 400px;
+  	overflow: auto;
+  	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 999999999;
+}
+
+.invisibile{
+  	display: none;
+}
+
+.compari{
+	display: block;
+	max-height: 200px;
+}
+
+.dropdown {
+	  position: relative;
+	  display: inline-block;
+}
+
+.fermata{
+	cursor: pointer;
+	font-size:16px;
+	color:#070D1F;
+	margin-top:235px;
+}
+
+</style>
+
 <body>
+
+<div class="notify"><span id="notifyType" class=""></span></div>
 
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
@@ -30,40 +73,179 @@
 	</header>
 
 	<script>
-		$("#navbar_header").load('../components/navbar-home.html');
+	
+	function notifica(t){
+		var frase=""	
+		if(t == 0)
+			frase="I due comuni inseriti non hanno tratte in comune"
+		else
+			 frase="Devi effettuare il login per poter salvare tratte"
+		
+		  $(".notify").addClass("notificaAttiva");
+		  $("#notifyType").addClass("failure");
+		  $(".notifichina").append("<p style='color:#ff7979'>"+frase+"</p");
+		  
+		  setTimeout(function(){
+		    $(".notify").removeClass("notificaAttiva");
+		    $("#notifyType").removeClass("failure");
+		  },2000);
+		};
+	
+		$("#navbar_header").load('components/navbar-ticket.jsp');
+		
+		var url_string = window.location.href; //window.location.href
+		var url = new URL(url_string);
+		if(url.searchParams.get("e")==1)
+			setTimeout(function(){ notifica(0)},1000);
 	</script>
-
-	<div class="background">
-		<form action="../ticket" method="post">
-			<div class="form-box">
-				
-				<input class="search-field text-box" placeholder="Partenza" type="text" list="comuni" name="partenza" ></input>
-				<input class="search-field text-box" placeholder="Arrivo" type="text" list="comuni" name="arrivo"></input>
-				<input type="date" class="search-field date-time-box"></input>
-				<input type="time" class="search-field hour-time-box"></input>
-				
-				<button class="search-field search-btn" type="submit"><img src="../assets/img/search.png" alt="Search" width="30px"></button>
+		
+		<div class="search-container">
+			<div class="rows">
+				<div class="col-1"></div>
+				<div class="col-2">
+					<form action="ticket" method="post">
+						<div class="form-box">
+							
+							<div>
+								<label class="name">Comune di partenza</label>
+								<input class="search-field text-box" type="text" list="comuni" name="partenza" required id="partenza" ></input>
+								
+								<label class="name">Comune di arrivo</label>
+								<input id="arrivo" class="search-field text-box" type="text" list="comuni" name="arrivo" required></input>
+								
+								
+								<div class="action-row">
+									<div class="dropdown">
+									<% 
+									if(session.getAttribute("id_utente")!= null){%>
+										<a><img src="assets/img/favourite-star.png" class="dropbtn" id="img_tratte_preferite" style="width:27px; height:27px;"/></a>
+									<%}else{%>
+										<a><img src="assets/img/not-favourite.png" id="non-favorite" style="width:27px; height:27px;"/></a>
+									<%}%>
+										<div id="myDropdown" class="tratte_preferite invisibile">
+											ciaoiooioioioioioi
+										</div>
+									</div>
+									<!--  <input type="date" class="search-field date-time-box"></input> -->
+									<input type="time" name="ora" class="search-field hour-time-box" style="width:100px"></input>
+									<button type="button" class="switch" id="switch">&rlarr;</button>
+								</div>
+							</div>
+							
+							<button class="search-field search-btn" type="submit">Cerca</button>
+							
+						</div>
+					</form>
+				</div>
 			</div>
-		</form>
-	</div>
+		</div>
+		
+		
+		
+	
+	<!-- 
 	<center>
 		<div>
 			<h2 class="title">Compagnie supportate</h2>
 			<div class="carriers-logos-container">
 				<div class="carriers-row">
-					<img src="../assets/img/logo_vcotrasporti.png" class="brand">
-					<img src="../assets/img/logo_comazzi.png" class="brand">
-					<img src="../assets/img/logo-saf.png" class="brand">
+					<img src="assets/img/logo_vcotrasporti.png" class="brand">
+					<img src="assets/img/logo_comazzi.png" class="brand">
+					<img src="assets/img/logo-saf.png" class="brand">
 				</div>
 			</div>
 		</div>
 	</center>
+	-->
 
+<div class="notify"><span id="notifyType" class="notifichina"></span></div>
+
+	<!-- 
 	<footer id="footer">
 	</footer>
+	-->
 
 	<script>
-		$("#footer").load('../components/footer.html');
+	var i =0;
+		//$("#footer").load('components/footerT.html');
+		
+		$('#img_tratte_preferite').click(function(e){
+			 $('#myDropdown').html("")
+			let url = "tratte_preferite";
+			 let u = '<i class="fa fa-trash"></i>'
+			$.get(url,
+			 function(responseJson){
+
+		           for(i =0;i< Object.keys(responseJson).length;++i){
+		        	   let t = responseJson[i];
+		        	   
+		        	   $('#myDropdown').append("<div class='row'><a class='fermata' id="+i+" onclick='io("+i+")';event.preventDefault();'>&nbsp;"+t[0]+"&nbsp;&nbsp-&nbsp;&nbsp;"+t[1]+"&nbsp;<button type='button' class='cestino' onclick='elimina("+i+")'></a> "+u+"</button>&nbsp</div>")
+		        	   
+		           }
+		        });
+			
+			document.getElementById("myDropdown").classList.toggle("invisibile");
+			document.getElementById("myDropdown").classList.toggle("compari");
+		});
+		
+		$('#switch').click(function (e){
+				let partenza_t = document.getElementById("partenza").value;
+				//console.log(document.getElementById("arrivo").value);
+				document.getElementById("partenza").value = document.getElementById("arrivo").value;
+				document.getElementById("arrivo").value = partenza_t;			
+		});
+
+		
+		function io(index){
+			let row = document.getElementById(index).text
+			row = row.substring(1,row.length-1 )
+
+			prima = row.split("-")[0]
+			seconda = row.split("-")[1]
+
+			prima = prima.substring(0,prima.length-2)
+			seconda = seconda.substring(2,seconda.length)
+			
+			document.getElementById("partenza").value = prima
+			document.getElementById("arrivo").value = seconda 
+		}
+		
+		$("#non-favorite").click(function (e){
+			setTimeout(function(){ notifica(1)},100);
+		});
+		
+		
+		function elimina(index){
+			
+			let text = document.getElementsByClassName("fermata")[index].text
+			text = text.substring(1,text.length-1)
+			par = text.split("-")[0]
+			arr= text.split("-")[1]
+
+			par=par.substring(0,par.length-2)
+			arr=arr.substring(2,arr.length)
+			console.log(par+arr+"t")
+			var url ="tratte_preferite"
+			$.post(url,{
+				 partenza:par,
+				 arrivo:arr,
+				 message:'elimina'
+			     });
+		}
+		
+window.onclick = function(event) {
+	  if (!event.target.matches('#img_tratte_preferite')) {
+	    var dropdowns = document.getElementsByClassName("tratte_preferite");
+	    var ip;
+	    for (ip = 0; ip < dropdowns.length; ip++) {
+	      var openDropdown = dropdowns[ip];
+	      if (openDropdown.classList.contains('compari')) {
+	        openDropdown.classList.remove('compari');
+	        openDropdown.classList.add('invisibile');
+	      }
+	    }
+	  }
+	}
 	</script>
 </body>
 
