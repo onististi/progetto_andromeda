@@ -256,10 +256,18 @@ img {
     margin: 0 .25rem;
   }
   .nav__link {
-  color:white;
+  	color:white;
     padding: .5rem .8rem;
-    border-radius: .25rem;
+    border-radius: .25rem;    
   }
+  
+  .nav-link{
+  	font-size: 20px;
+  	position: relative;
+  	top: -10px;
+  	margin-right: 10px;
+  } 
+  
   .nav__link:hover {
     background-color: var(--first-color);
   }
@@ -267,7 +275,6 @@ img {
     background-color: var(--first-color);
     color: var(--white-color);
   }
-}
 
 @media screen and (min-width: 1024px) {
   .bd-grid {

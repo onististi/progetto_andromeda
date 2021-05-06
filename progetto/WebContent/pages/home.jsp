@@ -19,18 +19,22 @@
 
 .tratte_preferite {
 	border-radius:5px;
-	text-align: center !important;
-  	transform: translate(-50%, 95%) !important;
   	position: absolute;
   	background-color: #f1f1f1;
-  	min-width: 160px;
+  	min-width: 400px;
+  	max-width: 400px;
   	overflow: auto;
   	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 9999999999;
+	z-index: 999999999;
 }
 
 .invisibile{
-  	display: none;	
+  	display: none;
+}
+
+.compari{
+	display: block;
+	max-height: 200px;
 }
 
 .dropdown {
@@ -96,7 +100,7 @@
 	</script>
 		
 		<div class="search-container">
-			<div class="row">
+			<div class="rows">
 				<div class="col-1"></div>
 				<div class="col-2">
 					<form action="ticket" method="post">
@@ -118,13 +122,16 @@
 									<%}else{%>
 										<a><img src="assets/img/not-favourite.png" id="non-favorite" style="width:27px; height:27px;"/></a>
 									<%}%>
-										<div id="myDropdown" class="tratte_preferite invisibile"></div>
+										<div id="myDropdown" class="tratte_preferite invisibile">
+											ciaoiooioioioioioi
+										</div>
 									</div>
 									<!--  <input type="date" class="search-field date-time-box"></input> -->
 									<input type="time" name="ora" class="search-field hour-time-box" style="width:100px"></input>
 									<button type="button" class="switch" id="switch">&rlarr;</button>
 								</div>
-							</div>				
+							</div>
+							
 							<button class="search-field search-btn" type="submit">Cerca</button>
 							
 						</div>
@@ -160,7 +167,7 @@
 
 	<script>
 	var i =0;
-		$("#footer").load('components/footerT.html');
+		//$("#footer").load('components/footerT.html');
 		
 		$('#img_tratte_preferite').click(function(e){
 			 $('#myDropdown').html("")
@@ -172,7 +179,7 @@
 		           for(i =0;i< Object.keys(responseJson).length;++i){
 		        	   let t = responseJson[i];
 		        	   
-		        	   $('#myDropdown').append("<br><div class='row'><a class='fermata' id="+i+" onclick='io("+i+")';event.preventDefault();'>&nbsp;"+t[0]+"&nbsp;&nbsp-&nbsp;&nbsp;"+t[1]+"&nbsp;<button type='button' class='cestino' onclick='elimina("+i+")'></a> "+u+"</button>&nbsp</div><br>")
+		        	   $('#myDropdown').append("<div class='row'><a class='fermata' id="+i+" onclick='io("+i+")';event.preventDefault();'>&nbsp;"+t[0]+"&nbsp;&nbsp-&nbsp;&nbsp;"+t[1]+"&nbsp;<button type='button' class='cestino' onclick='elimina("+i+")'></a> "+u+"</button>&nbsp</div>")
 		        	   
 		           }
 		        });
